@@ -1,30 +1,9 @@
 use std::process::Command;
+mod hello;
 
 
-fn hello () {
-    let tesxt: &str = "
-    
-    ----------------
-    | Mamisoa ito  |
-    ----------------
-
-    ";
-    println!("{}", tesxt)
-}
-
-fn seting(tokken: &str) {
-    let output = Command::new("touch .")
-        .args(["config", "--global", "user.name", "Mamisoa ito"])
-        .output()
-        .expect("Failed to execute command");
-
-    if output.status.success() {
-        println!("Git user.name set successfully.");
-    } else {
-        eprintln!("Failed to set Git user.name: {}", String::from_utf8_lossy(&output.stderr));
-    }
-}
-
+#[warn(unused_must_use)]
 fn main() {
-    hello();
+   let _ = hello::hello_welcome().expect("Failed to run hello welcome");
+    Command::new("pwd").status().expect("Failed to list terminal");
 }
