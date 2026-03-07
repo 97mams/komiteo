@@ -1,6 +1,8 @@
 mod hello;
 mod config;
+mod cil;
 fn main() {
-    let config = config::get_api_key();
-    println!("API Key: {}", config.api_key);
+    config::get_api_key();
+    let cmd = cil::cil();
+    println!("Git diff executed successfully {:?}", cmd);
 }
