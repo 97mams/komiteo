@@ -11,6 +11,11 @@ pub fn get_api_key() -> Config {
         .join(".komiteo/config.toml");
 
     if config_path.exists() {
+        println!("
+┌──────────────────────────────────────────┐
+|                  KOMITEO                 |
+└──────────────────────────────────────────┘
+");
         let content = fs::read_to_string(config_path).unwrap();
         return Config {
             api_key: content.trim().to_string(),
