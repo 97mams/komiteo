@@ -1,30 +1,9 @@
-use ratatui::{
-    widgets::{Block, Borders, Paragraph},
-};
-use crossterm::{
-    terminal::{enable_raw_mode, disable_raw_mode},
-};
-pub fn hello_welcome()-> Result<(), Box<dyn std::error::Error>> {
+use dialoguer::Input;
 
-    enable_raw_mode()?;
+pub fn hello_welcome(){
+    let name: String = Input::new()
+        .with_prompt("What is your name?")
+        .interact_text().expect("Failed to read input");
 
-    let backend = ratatui::backend::CrosstermBackend::new(std::io::stdout());
-    let mut terminal = ratatui::Terminal::new(backend)?;
-
-    terminal.draw(|frame| {
-        let area = frame.area();
-
-        let input = Paragraph::new("Votre texte ici")
-            .block(
-                Block::default()
-                    .title("Komiteo Input")
-                    .borders(Borders::ALL),
-            );
-
-        frame.render_widget(input, area);
-    })?;
-
-    disable_raw_mode()?;
-
-    Ok(())
+    println!("Hello, {}! Welcome to the Rust programming world!", name);
 }
