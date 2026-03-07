@@ -1,11 +1,11 @@
 use std::fs;
-mod hello;
+use crate::hello;
 
-struct Config {
-    api_key: String,
+pub struct Config {
+    pub api_key: String,
 }
 
-fn get_api_key() -> Config {
+pub fn get_api_key() -> Config {
     let config_path = dirs::home_dir()
         .unwrap()
         .join(".komiteo/config.toml");
@@ -19,11 +19,11 @@ fn get_api_key() -> Config {
 
    let hello = hello::hello_welcome();
 
-    let mut config=  Config {
-        api_key: hello.trim().to_string(),
+    let config=  Config {
+        api_key: hello,
     };
     fs::create_dir_all(config_path.parent().unwrap()).unwrap();
-    fs::write(&config_path, hello.trim()).unwrap();
+    fs::write(&config_path, config.api_key.as_bytes()).unwrap();
 
     config
 }

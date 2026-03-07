@@ -67,6 +67,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "create"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "36492536271b001f4e859cd482299631eae7d70557495c2967ffea4be228e532"
+
+[[package]]
 name = "crossterm"
 version = "0.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -262,6 +268,7 @@ name = "komity"
 version = "0.1.0"
 dependencies = [
  "colored",
+ "create",
  "crossterm 0.29.0",
  "dirs",
  "ratatui",

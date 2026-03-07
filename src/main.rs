@@ -1,9 +1,6 @@
-use std::process::Command;
 mod hello;
-
-
-#[warn(unused_must_use)]
+mod config;
 fn main() {
-    let _ = hello::hello_welcome();
-    Command::new("pwd").status().expect("Failed to list terminal");
+    let config = config::get_api_key();
+    println!("API Key: {}", config.api_key);
 }
