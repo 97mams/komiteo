@@ -18,15 +18,15 @@ struct App {
     api_key: String,
 }
 
-pub fn hello_welcome() -> Result<(), Box<dyn std::error::Error>> {
+pub fn hello_welcome() -> String {
 
-    enable_raw_mode()?;
+    enable_raw_mode().expect("Failed to enable raw mode");
 
     let mut stdout = io::stdout();
-    execute!(stdout, EnterAlternateScreen)?;
+    execute!(stdout, EnterAlternateScreen).expect("Failed to enter alternate screen");
 
     let backend = ratatui::backend::CrosstermBackend::new(stdout);
-    let mut terminal = Terminal::new(backend)?;
+    let mut terminal = Terminal::new(backend).expect("Failed to create terminal");
 
     let mut app = App {
         api_key: String::new(),
@@ -34,10 +34,10 @@ pub fn hello_welcome() -> Result<(), Box<dyn std::error::Error>> {
 
     loop {
 
-        terminal.draw(|f| ui(f, &app))?;
+        terminal.draw(|f| ui(f, &app)).expect("Failed to draw");
 
-        if event::poll(Duration::from_millis(200))? {
-            if let Event::Key(key) = event::read()? {
+        if event::poll(Duration::from_millis(200)).expect("Failed to poll") {
+            if let Event::Key(key) = event::read().expect("Failed to read event") {
 
                 match key.code {
 
@@ -63,15 +63,15 @@ pub fn hello_welcome() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    disable_raw_mode()?;
-    execute!(io::stdout(), LeaveAlternateScreen)?;
+    disable_raw_mode().expect("Failed to disable raw mode");
+    execute!(io::stdout(), LeaveAlternateScreen).expect("Failed to leave alternate screen");
     println!("Collez votre clé API pour continuer.
 
 Appuyez sur ENTRÉE pour enregistrer
 Appuyez sur ÉCHAP pour quitter");
 
 
-    Ok(())
+    return app.api_key
 }
 
 fn ui(frame: &mut Frame, app: &App) {
