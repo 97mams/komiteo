@@ -1,30 +1,23 @@
 use std::process::Command;
+use futures_util::StreamExt;
+use openrouter_rs::{OpenRouterClient, api::chat::*};
 
-pub fn ai_agent(api_key: &str, prompt: &str)-> String {
-    let response = Command::new("curl")
-        .arg("-X")
-        .arg("POST")
-        .arg("https://api.openai.com/v1/chat/completions")
-        .arg("-H")
-        .arg("Content-Type: application/json")
-        .arg("-H")
-        .arg(format!("Authorization: Bearer {}", api_key))
-        .arg("-d")
-        .arg(format!(r#"{{"model": "arcee-ai/trinity-large-preview:free",
-                "messages": [
-                    {{
-                        "role": "system",
-                        "content": "Generate a short Git commit message in English based on this git diff.\n\n  Format:\n  <type>: <body>\n\n  Rules:\n  - Use conventional types (feat, fix, refactor, chore, docs, test)\n  - Present tense\n  - One line only\n\n  Git diff:{p}"
-                    }},
-                    {{
-                        "role": "user",
-                        "content": "If you built the world'\''s tallest skyscraper, what would you name it?"
-                    }}
-                ],
-                "stream": true
-            }}'"#, p = prompt)
-        )
-        .output()
-        .expect("Failed to execute AI agent");
-     String::from_utf8_lossy(&response.stdout).to_string()
+pub async fn ai_agent(api_key: &str, prompt: &str){
+    let client = OpenRouterClient::builder()
+        .api_key(api_key)
+        .build();
+    let request = ChatCompilationRequest::builder()
+        .model("arcee-ai/trinity-large-preview:free")
+        .messages(vec![
+            Message::new(Role::User,prompt)])
+        .build();
+    let mut stream = client.chat().stream(&request).await.unwrap();
+
+    while let Some(result) = stream.next().await {
+        if let Ok(response) = result {
+            if let Some(content) = response.choices[0].content() {
+                print!("{}", content);
+            }
+        }
+    }
 }
