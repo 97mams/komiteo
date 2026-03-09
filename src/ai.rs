@@ -1,23 +1,42 @@
-use std::process::Command;
 use futures_util::StreamExt;
-use openrouter_rs::{OpenRouterClient, api::chat::*};
+use openrouter_rs::{
+    OpenRouterClient,
+    api::chat::*,
+    types::Role,
+};
 
-pub async fn ai_agent(api_key: &str, prompt: &str){
+pub async fn ai_agent(
+    api_key: &str,
+    prompt: &str,
+) -> Result<(), Box<dyn std::error::Error>> {
+
     let client = OpenRouterClient::builder()
         .api_key(api_key)
-        .build();
-    let request = ChatCompilationRequest::builder()
+        .build()?; // pas unwrap
+
+    let request = ChatCompletionRequest::builder()
         .model("arcee-ai/trinity-large-preview:free")
-        .messages(vec![
-            Message::new(Role::User,prompt)])
-        .build();
-    let mut stream = client.chat().stream(&request).await.unwrap();
+        .messages(vec![Message::new(Role::User, prompt)])
+        .build()?;
+
+    let mut stream = client.chat().stream(&request).await?;
 
     while let Some(result) = stream.next().await {
-        if let Ok(response) = result {
-            if let Some(content) = response.choices[0].content() {
-                print!("{}", content);
+
+        match result {
+            Ok(response) => {
+                if let Some(choice) = response.choices.first() {
+                    if let Some(content) = choice.content() {
+                        print!("{}", content);
+                    }
+                }
+            }
+
+            Err(err) => {
+                eprintln!("Stream error: {}", err);
             }
         }
     }
+
+    Ok(())
 }
