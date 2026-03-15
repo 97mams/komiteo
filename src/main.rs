@@ -39,7 +39,7 @@ while let Some(result) = stream.next().await {
     if let Ok(response) = result {
         if let Some(content) = response.choices[0].content() {
             commit_message.push_str(content);
-            print!("{}", content);
+            print!("{}\n", content);
         }
     }
 }
