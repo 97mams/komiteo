@@ -10,7 +10,7 @@ mod cil;
 async  fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config = config::get_api_key().api_key;
     let key:&str = &config;
-    let diff = cil::cil();
+    let diff = cil::diff();
 let client = OpenRouterClient::builder()
     .api_key(key)
     .build()?;
@@ -33,12 +33,17 @@ Git diff:
 
 let mut stream = client.chat().stream(&request).await?;
 
+let mut commit_message = String::new();
+
 while let Some(result) = stream.next().await {
     if let Ok(response) = result {
         if let Some(content) = response.choices[0].content() {
+            commit_message.push_str(content);
             print!("{}", content);
         }
     }
 }
+cil::commit(&commit_message);
+cil::push();
     Ok(())
 }

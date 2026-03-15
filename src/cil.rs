@@ -1,7 +1,6 @@
 use std::process::Command;
  
 pub fn diff() -> String {
-   Command::new("pwd").status().expect("Failed to display diff");
   let cmd = Command::new("git")
     .arg("diff")
     .output()
@@ -10,13 +9,18 @@ pub fn diff() -> String {
   String::from_utf8_lossy(&cmd.stdout).to_string()
  }
 
- pub fn push(message: &str) -> String {
-  Command::new("pwd").status().expect("Failed to display diff");
-  let cmd = Command::new("git")
-    .arg("push")
-    .args(&["-am", message])
-    .output()
-    .expect("Failed to execute git push");
+ pub fn commit(message: &str) {
+  Command::new("git")
+    .arg("commit")
+    .arg("-am")
+    .arg(message)
+    .status()
+    .expect("Failed to execute git commit");
+ }
 
-  String::from_utf8_lossy(&cmd.stdout).to_string()
+ pub fn push() {
+  Command::new("git")
+    .arg("push")
+    .status()
+    .expect("Failed to execute git push");
  }
