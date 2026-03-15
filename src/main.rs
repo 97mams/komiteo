@@ -3,21 +3,32 @@ use openrouter_rs::{OpenRouterClient, api::chat::*, types::Role};
 
 mod hello;
 mod config;
-// mod cil;
+mod cil;
 
 
 #[tokio::main]
 async  fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config = config::get_api_key().api_key;
     let key:&str = &config;
-    // let cmd = cil::cil();
+    let diff = cil::cil();
 let client = OpenRouterClient::builder()
     .api_key(key)
     .build()?;
 
 let request = ChatCompletionRequest::builder()
     .model("arcee-ai/trinity-large-preview:free")
-    .messages(vec![Message::new(Role::User, "hello world")])
+    .messages(vec![Message::new(Role::User, format!("Generate a short Git commit message in English based on this git diff.
+
+Format:
+<type>: <body>
+
+Rules:
+- Use conventional types (feat, fix, refactor, chore, docs, test)
+- Present tense
+- One line only
+
+Git diff:
+{}", diff))])
     .build()?;
 
 let mut stream = client.chat().stream(&request).await?;
