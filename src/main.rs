@@ -1,3 +1,4 @@
+use crossterm::event::{self, Event, KeyCode, KeyEventKind};
 use futures_util::StreamExt;
 use openrouter_rs::{OpenRouterClient, api::chat::*, types::Role};
 
@@ -47,4 +48,22 @@ cil::commit(&commit_message);
 cil::push();
 println!();
     Ok(())
+}
+
+
+fn handle_events(input: &mut String) -> io::Result<bool> {
+    if event::poll(std::time::Duration::from_millis(50))? {
+        if let Event::Key(key) = event::read()? {
+            // Sous Windows, évite le double déclenchement
+            if key.kind == KeyEventKind::Press {
+                match key.code {
+                    KeyCode::Esc => return Ok(true), // On veut quitter
+                    KeyCode::Char(c) => input.push(c),
+                    KeyCode::Backspace => { input.pop(); }
+                    _ => {}
+                }
+            }
+        }
+    }
+    Ok(false) // On continue
 }
