@@ -1,6 +1,11 @@
-use crossterm::event::{self, Event, KeyCode, KeyEventKind};
 use futures_util::StreamExt;
 use openrouter_rs::{OpenRouterClient, api::chat::*, types::Role};
+use crossterm::{
+    event::{self, Event, KeyCode, KeyEventKind},
+    execute,
+    terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
+};
+use std::io;
 
 mod hello;
 mod config;
@@ -47,6 +52,16 @@ while let Some(result) = stream.next().await {
 cil::commit(&commit_message);
 cil::push();
 println!();
+loop {
+    // Affichage
+    terminal.draw(|f| ui(f, &input_text))?;
+
+    // Gestion des événements externalisée
+    if handle_events(&mut input_text)? {
+        break;
+    }
+}
+
     Ok(())
 }
 
