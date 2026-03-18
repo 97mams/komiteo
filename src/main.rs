@@ -75,3 +75,7 @@ fn app(terminal: &mut DefaultTerminal) -> Result<()> {
 fn render(frame: &mut Frame) {
     frame.render_widget("hello world", frame.area());
 }
+
+fn afotsy_maty (){
+    println!("Arabaina tratriny asaramany eh!");
+}
