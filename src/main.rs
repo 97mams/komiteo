@@ -12,7 +12,7 @@
 // mod cil;
 
 use color_eyre::eyre::{Ok,Result};
-use ratatui::{DefaultTerminal,Frame};
+use ratatui::{crossterm::{event::{self, Event}}, DefaultTerminal,Frame};
 
 
 // #[tokio::main]
@@ -66,8 +66,11 @@ fn main() -> Result<()> {
 fn app(terminal: &mut DefaultTerminal) -> Result<()> {
     loop {
         terminal.draw(render)?;
-        if crossterm::event::read()?.is_key_press() {
-            break Ok(());
+        
+        if let Event::Key(key) = event::read()? {
+             match key.code {
+                 event::KeyCode::Esc => break Ok(()),
+             }
         }
     }
 }
