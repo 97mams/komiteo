@@ -12,3 +12,4 @@ futures-util = "0.3.32"
 dirs = "6.0.0"
 openrouter-rs = "0.6.1"
 tokio = { version = "1", features = ["full"] }
+ratatui-image = "10.0.6"
