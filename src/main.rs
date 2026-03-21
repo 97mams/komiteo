@@ -13,11 +13,10 @@
 
 use color_eyre::eyre::{Ok,Result};
 use ratatui::{
-    crossterm::{
-        event::{self, Event},
-        terminal,
-    },
-    DefaultTerminal
+    DefaultTerminal, Frame, crossterm::event::{self, Event}, widgets::{Block, Borders, Paragraph},
+    style::{Color, Style},
+    widgets::BorderType,
+    layout::Alignment
 };
 
 
@@ -73,6 +72,7 @@ fn main() -> Result<()> {
 
 fn run(mut terminal: DefaultTerminal) -> Result<()> {
     loop {
+        terminal.draw(render)?;
         if let Event::Key(key) = event::read()? {
             match key.code {
                 event::KeyCode::Char('q') => break,
@@ -83,4 +83,17 @@ fn run(mut terminal: DefaultTerminal) -> Result<()> {
     }
 
     Ok(())
+}
+
+fn render(frame: &mut Frame) {
+   let p =   Paragraph::new("Hello, World!")
+   .alignment(Alignment::Center)
+    .style(Style::default().fg(Color::Yellow))
+    .block(
+        Block::default()
+            .borders(Borders::ALL)
+            .title("Komiteo")
+            .border_type(BorderType::Rounded)
+    );
+   frame.render_widget(p, frame.area());
 }
