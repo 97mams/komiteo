@@ -12,7 +12,13 @@
 // mod cil;
 
 use color_eyre::eyre::{Ok,Result};
-use ratatui::{crossterm::{event::{self, Event}}, DefaultTerminal,Frame};
+use ratatui::{
+    crossterm::{
+        event::{self, Event},
+        terminal,
+    },
+    DefaultTerminal
+};
 
 
 // #[tokio::main]
@@ -58,23 +64,23 @@ fn main() -> Result<()> {
     // Ok(())
     color_eyre::install()?;
 
-    ratatui::run(app)?;
+    let terminal = ratatui::init();
+    let result = run(terminal);
+    ratatui::restore();
 
-    Ok(())
+    return result;
 }
 
-fn app(terminal: &mut DefaultTerminal) -> Result<()> {
+fn run(mut terminal: DefaultTerminal) -> Result<()> {
     loop {
-        terminal.draw(render)?;
-        
         if let Event::Key(key) = event::read()? {
-             match key.code {
-                 event::KeyCode::Esc => break Ok(()),
-             }
+            match key.code {
+                event::KeyCode::Char('q') => break,
+                _ => {
+                }
+            }
         }
     }
-}
 
-fn render(frame: &mut Frame) {
-    frame.render_widget("hello world", frame.area());
+    Ok(())
 }
