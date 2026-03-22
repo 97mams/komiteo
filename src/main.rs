@@ -11,13 +11,18 @@
 // mod config;
 // mod cil;
 
-use color_eyre::eyre::{Ok,Result};
+use color_eyre::eyre::{Ok, Result};
 use ratatui::{
-    DefaultTerminal, Frame, crossterm::event::{self, Event}, widgets::{Block, Borders, Paragraph},
+    DefaultTerminal, Frame,
+    crossterm::event::{self, Event},
+    layout::Alignment,
     style::{Color, Style},
     widgets::BorderType,
-    layout::Alignment
+    widgets::{Block, Borders, Paragraph},
 };
+use image::ImageReader;
+
+
 
 
 // #[tokio::main]
@@ -64,6 +69,7 @@ fn main() -> Result<()> {
     color_eyre::install()?;
 
     let terminal = ratatui::init();
+
     let result = run(terminal);
     ratatui::restore();
 
@@ -73,11 +79,11 @@ fn main() -> Result<()> {
 fn run(mut terminal: DefaultTerminal) -> Result<()> {
     loop {
         terminal.draw(render)?;
+
         if let Event::Key(key) = event::read()? {
             match key.code {
                 event::KeyCode::Char('q') => break,
-                _ => {
-                }
+                _ => {}
             }
         }
     }
@@ -86,14 +92,20 @@ fn run(mut terminal: DefaultTerminal) -> Result<()> {
 }
 
 fn render(frame: &mut Frame) {
-   let p =   Paragraph::new("Hello, World!")
-   .alignment(Alignment::Center)
-    .style(Style::default().fg(Color::Yellow))
-    .block(
-        Block::default()
-            .borders(Borders::ALL)
-            .title("Komiteo")
-            .border_type(BorderType::Rounded)
-    );
-   frame.render_widget(p, frame.area());
+    let dyn_img = ImageReader::open("./assets/images/logo.png")
+        .unwrap()
+        .decode()
+        .unwrap();
+    println!("{:?}", dyn_img);
+
+    let p = Paragraph::new("Welcome to Komiteo!")
+        .alignment(Alignment::Center)
+        .style(Style::default().fg(Color::Yellow))
+        .block(
+            Block::default()
+                .borders(Borders::ALL)
+                .title("Komiteo")
+                .border_type(BorderType::Rounded), 
+        );
+    frame.render_widget(p, frame.area());
 }
