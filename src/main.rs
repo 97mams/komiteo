@@ -13,12 +13,7 @@
 
 use color_eyre::eyre::{Ok, Result};
 use ratatui::{
-    DefaultTerminal, Frame,
-    crossterm::event::{self, Event},
-    layout::Alignment,
-    style::{Color, Style},
-    widgets::BorderType,
-    widgets::{Block, Borders, Paragraph},
+    DefaultTerminal, Frame, crossterm::event::{self, Event}, layout::{Alignment, Constraint, Layout}, style::{Color, Style}, text::Text, widgets::{Block, BorderType, Borders, Paragraph}
 };
 
 
@@ -91,6 +86,9 @@ fn run(mut terminal: DefaultTerminal) -> Result<()> {
 }
 
 fn render(frame: &mut Frame) {
+    let layout = Layout::default()
+        .direction(ratatui::layout::Direction::Vertical)
+        .constraints(vec![Constraint::Percentage(50), Constraint::Percentage(50)]).split(frame.area());
 
     let p = Paragraph::new("Welcome to Komiteo!")
         .alignment(Alignment::Center)
@@ -101,6 +99,8 @@ fn render(frame: &mut Frame) {
                 .title("Komiteo")
                 .border_type(BorderType::Rounded), 
         );
+        let text = Text::raw("lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
     
-    frame.render_widget(p, frame.area());
+        frame.render_widget(p, layout[0]);
+        frame.render_widget(text, layout[1]);
 }
