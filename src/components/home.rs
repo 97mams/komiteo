@@ -32,8 +32,7 @@ impl Component for Home {
             Action::Tick => {
                 // add any logic here that should run on every tick
             }
-            Action::Render => {
-                // add any logic here that should run on every render
+            Action::Render => {;
             }
             _ => {}
         }
@@ -41,7 +40,8 @@ impl Component for Home {
     }
 
     fn draw(&mut self, frame: &mut Frame, area: Rect) -> color_eyre::Result<()> {
-        frame.render_widget(Paragraph::new("hello world"), area);
+        let paragraph = Paragraph::new("Welcome to the Home component!").block(Block::default().title("Home").borders(Borders::ALL));
+        frame.render_widget(paragraph, area);
         Ok(())
     }
 }
