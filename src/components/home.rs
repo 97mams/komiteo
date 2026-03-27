@@ -32,7 +32,7 @@ impl Component for Home {
             Action::Tick => {
                 // add any logic here that should run on every tick
             }
-            Action::Render => {;
+            Action::Render => {
             }
             _ => {}
         }
@@ -40,7 +40,16 @@ impl Component for Home {
     }
 
     fn draw(&mut self, frame: &mut Frame, area: Rect) -> color_eyre::Result<()> {
-        let paragraph = Paragraph::new("Welcome to the Home component!").block(Block::default().title("Home").borders(Borders::ALL));
+        let title =  "Bienvenue sur Komiteo !".light_yellow().bold();
+        let containt = Text::from(vec![
+            Line::from("💫 Le CLI qui automatise votre flux Git avec l'intelligence d'OpenRouter."),
+            Line::from("👋 Bonjour ! Bienvenue dans l'aventure KOMITEO."),
+            Line::from("Avant de pouvoir générer des messages de commit parfaits et de pusher votre code
+en un clin d'œil, nous devons configurer un petit quelque chose."),
+            Line::from("KOMITEO utilise la puissance de l'IA d'OpenRouter pour comprendre vos changements
+et écrire des messages de commit clairs, concis et standardisés.")
+            ]);
+        let paragraph = Paragraph::new(containt).block(Block::default().title(title).border_style(Color::LightYellow ).borders(Borders::ALL));
         frame.render_widget(paragraph, area);
         Ok(())
     }
