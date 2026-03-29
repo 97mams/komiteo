@@ -1,106 +1,24 @@
-// use futures_util::StreamExt;
-// use openrouter_rs::{OpenRouterClient, api::chat::*, types::Role};
-// use crossterm::{
-//     event::{self, Event, KeyCode, KeyEventKind},
-//     execute,
-//     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
-// };
-// use std::io;
+use clap::Parser;
+use cli::Cli;
 
-// mod hello;
-// mod config;
-// mod cil;
+use crate::app::App;
 
-use color_eyre::eyre::{Ok, Result};
-use ratatui::{
-    DefaultTerminal, Frame, crossterm::event::{self, Event}, layout::{Alignment, Constraint, Layout}, style::{Color, Style}, text::Text, widgets::{Block, BorderType, Borders, Paragraph}
-};
+mod action;
+mod app;
+mod cli;
+mod components;
+mod config;
+mod errors;
+mod logging;
+mod tui;
 
+#[tokio::main]
+async fn main() -> color_eyre::Result<()> {
+    crate::errors::init()?;
+    crate::logging::init()?;
 
-
-
-// #[tokio::main]
-fn main() -> Result<()> {
-    // let config = config::get_api_key().api_key;
-    // let key:&str = &config;
-    // let diff = cil::diff();
-    // let client = OpenRouterClient::builder()
-    //     .api_key(key)
-    //     .build()?;
-
-    // let request = ChatCompletionRequest::builder()
-    //     .model("arcee-ai/trinity-large-preview:free")
-    //     .messages(vec![Message::new(Role::User, format!("Generate a short Git commit message in English based on this git diff.
-
-    // Format:
-    // <type>: <body>
-
-    // Rules:
-    // - Use conventional types (feat, fix, refactor, chore, docs, test)
-    // - Present tense
-    // - One line only
-
-    // Git diff:
-    // {}", diff))])
-    //     .build()?;
-
-    // let mut stream = client.chat().stream(&request).await?;
-
-    // let mut commit_message = String::new();
-
-    // while let Some(result) = stream.next().await {
-    //     if let Ok(response) = result {
-    //         if let Some(content) = response.choices[0].content() {
-    //             commit_message.push_str(content);
-    //             print!("{}", content);
-    //         }
-    //     }
-    // }
-    // cil::commit(&commit_message);
-    // cil::push();
-    // println!();
-    // Ok(())
-    color_eyre::install()?;
-
-    let terminal = ratatui::init();
-
-    let result = run(terminal);
-    ratatui::restore();
-
-    return result;
-}
-
-fn run(mut terminal: DefaultTerminal) -> Result<()> {
-    loop {
-        terminal.draw(render)?;
-
-        if let Event::Key(key) = event::read()? {
-            match key.code {
-                event::KeyCode::Char('q') => break,
-                _ => {}
-            }
-        }
-    }
-
+    let args = Cli::parse();
+    let mut app = App::new(args.tick_rate, args.frame_rate)?;
+    app.run().await?;
     Ok(())
-}
-
-fn render(frame: &mut Frame) {
-    let layout = Layout::default()
-        .direction(ratatui::layout::Direction::Vertical)
-        .constraints(vec![Constraint::Percentage(50), Constraint::Percentage(50)]).split(frame.area());
-
-    let p = Paragraph::new("Welcome to Komiteo!")
-        .alignment(Alignment::Center)
-        .style(Style::default().fg(Color::Yellow))
-        .block(
-            Block::default()
-                .borders(Borders::ALL)
-                .title("Komiteo")
-                .border_type(BorderType::Rounded), 
-        );
-        let text = Text::raw("lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
-    
-        frame.render_widget(p, layout[0]);
-        frame.render_widget(text, layout[1]);
 }
