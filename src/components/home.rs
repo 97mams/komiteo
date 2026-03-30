@@ -2,7 +2,7 @@ use ratatui::{prelude::*, widgets::*};
 use tokio::sync::mpsc::UnboundedSender;
 
 use super::Component;
-use crate::{action::Action, config::Config};
+use crate::{action::Action, config::Config, logo::image_to_ascii};
 
 #[derive(Default)]
 pub struct Home {
@@ -39,12 +39,13 @@ impl Component for Home {
         Ok(None)
     }
 
-    fn draw(&mut self, frame: &mut Frame, area: Rect) -> color_eyre::Result<()> {
+    fn draw(&mut self, frame: &mut Frame, _area: Rect) -> color_eyre::Result<()> {
+        let image = image_to_ascii("./assets/images/logo.png");
         let container = Layout::default().direction(Direction::Vertical).constraints([Constraint::Percentage(50), Constraint::Percentage(50)]).split(frame.area());
 
         let title =  "Bienvenue sur Komiteo !".light_yellow().bold();
         let content = Text::from(vec![
-            Line::from(""),
+            Line::from(image),
             Line::from("💫 Le CLI qui automatise votre flux Git avec l'intelligence d'OpenRouter.").alignment(Alignment::Center),
              Line::from(""),
             Line::from("👋 Bonjour ! Bienvenue dans l'aventure KOMITEO.").italic(),
@@ -52,7 +53,7 @@ impl Component for Home {
             Line::from("Avant de pouvoir générer des messages de commit parfaits et de pusher votre code en un clin d'œil, nous devons configurer un petit quelque chose.").italic(),
             Line::from("KOMITEO utilise la puissance de l'IA d'OpenRouter pour comprendre vos changements et écrire des messages de commit clairs, concis et standardisés.").italic()
             ]);
-        let paragraph = Paragraph::new(content).block(Block::default().title(title).border_style(Color::LightYellow ).borders(Borders::ALL)).wrap(Wrap { trim: (true) });
+        let paragraph = Paragraph::new(content).block(Block::default().title(title).border_style(Color::LightYellow ).padding(Padding::new(4,4,2,1)).borders(Borders::ALL)).wrap(Wrap { trim: (true) });
         frame.render_widget(paragraph, container[0]);
 
         let seconde_title = "CONFIGURATION DE L'API OPENROUTER".light_yellow().bold();
