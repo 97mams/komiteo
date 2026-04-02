@@ -1,6 +1,6 @@
 use ratatui::{ prelude::*, widgets::*};
 use tokio::sync::mpsc::UnboundedSender;
-
+use tui_checkbox::Checkbox;
 use super::Component;
 use crate::{action::Action, config::Config};
 
@@ -67,6 +67,27 @@ impl Component for Home {
             Line::from("3️ Cliquez sur 'Create API Key', donnez-lui un nom (par exemple 'Komiteo') et copiez la clé générée.").italic()]);
         let seconde_paragraph = Paragraph::new(seconde_content).block(Block::default().title(seconde_title).border_style(Color::LightYellow ).borders(Borders::ALL)).wrap(Wrap { trim: (true) });
         frame.render_widget(seconde_paragraph, container[2]);
+
+        let checkbox = Checkbox::new("Enable feature", true);
+
+// Styled checkbox
+    let checkbox = Checkbox::new("Enable feature", true)
+        .style(Style::default().fg(Color::White))
+        .checkbox_style(Style::default().fg(Color::Green).add_modifier(Modifier::BOLD))
+        .label_style(Style::default().fg(Color::Gray));
+
+    // Custom symbols
+    let checkbox = Checkbox::new("Task", false)
+        .checked_symbol("✅ ")
+        .unchecked_symbol("⬜ ");
+
+    // With a block
+    use ratatui::widgets::Block;
+
+    let checkbox = Checkbox::new("Accept terms", false)
+        .block(Block::bordered().title("Settings"));
+
+        frame.render_widget(input, container[3]);
 
         Ok(())
     }
