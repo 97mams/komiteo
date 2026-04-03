@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 // use futures_util::StreamExt;
 // use openrouter_rs::{OpenRouterClient, api::chat::*, types::Role};
 // use crossterm::{
@@ -7,6 +8,11 @@
 //     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
 // };
 // use std::io;
+=======
+mod hello;
+mod config;
+// mod cil;
+>>>>>>> parent of afbfe60... feat: update cil module usage and modify chat request message format
 
 // mod hello;
 // mod config;
@@ -24,11 +30,12 @@ use ratatui::{
 async  fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config = config::get_api_key().api_key;
     let key:&str = &config;
-    let diff = cil::cil();
+    // let cmd = cil::cil();
 let client = OpenRouterClient::builder()
     .api_key(key)
     .build()?;
 
+<<<<<<< HEAD
 
 // #[tokio::main]
 fn main() -> Result<()> {
@@ -58,6 +65,11 @@ fn main() -> Result<()> {
     // let mut stream = client.chat().stream(&request).await?;
 
     // let mut commit_message = String::new();
+=======
+let request = ChatCompletionRequest::builder()
+    .model("arcee-ai/trinity-large-preview:free")
+    .messages(vec![Message::new(Role::User, "hello world")])
+    .build()?;
 
     // while let Some(result) = stream.next().await {
     //     if let Ok(response) = result {
