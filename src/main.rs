@@ -1,99 +1,50 @@
+use openrouter_rs::{Message, api::chat::ChatCompletionRequest, types::Role};
 // mod hello;
 // mod config;
-// mod cil;
+mod cil;
 // mod hello;
-// mod config;
+mod config;
 // mod cil;
 
-use color_eyre::eyre::{Ok,Result};
-use ratatui::{
-    crossterm::{
-        event::{self, Event},
-        terminal,
-    },
-    DefaultTerminal
-};
 #[tokio::main]
 async  fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config = config::get_api_key().api_key;
     let key:&str = &config;
-    // let cmd = cil::cil();
-let client = OpenRouterClient::builder()
-    .api_key(key)
-    .build()?;
+    let diff = cil::diff();
+    let client = OpenRouterClient::builder()
+        .api_key(key)
+        .build()?;
 
+    let request = ChatCompletionRequest::builder()
+        .model("arcee-ai/trinity-large-preview:free")
+        .messages(vec![Message::new(Role::User, format!("Generate a short Git commit message in English based on this git diff.
 
-// #[tokio::main]
-fn main() -> Result<()> {
-    // let config = config::get_api_key().api_key;
-    // let key:&str = &config;
-    // let diff = cil::diff();
-    // let client = OpenRouterClient::builder()
-    //     .api_key(key)
-    //     .build()?;
+    Format:
+    <type>: <body>
 
-    // let request = ChatCompletionRequest::builder()
-    //     .model("arcee-ai/trinity-large-preview:free")
-    //     .messages(vec![Message::new(Role::User, format!("Generate a short Git commit message in English based on this git diff.
+    Rules:
+    - Use conventional types (feat, fix, refactor, chore, docs, test)
+    - Present tense
+    - One line only
 
-    // Format:
-    // <type>: <body>
+    Git diff:
+    {}", diff))])
+        .build()?;
 
-    // Rules:
-    // - Use conventional types (feat, fix, refactor, chore, docs, test)
-    // - Present tense
-    // - One line only
+    let mut stream = client.chat().stream(&request).await?;
 
-    // Git diff:
-    // {}", diff))])
-    //     .build()?;
+    let mut commit_message = String::new();
 
-    // let mut stream = client.chat().stream(&request).await?;
-
-    // let mut commit_message = String::new();
-
-let request = ChatCompletionRequest::builder()
-    .model("arcee-ai/trinity-large-preview:free")
-    .messages(vec![Message::new(Role::User, "hello world")])
-    .build()?;
-
-    // while let Some(result) = stream.next().await {
-    //     if let Ok(response) = result {
-    //         if let Some(content) = response.choices[0].content() {
-    //             commit_message.push_str(content);
-    //             print!("{}", content);
-    //         }
-    //     }
-    // }
-    // cil::commit(&commit_message);
-    // cil::push();
-    // println!();
-    // Ok(())
-    color_eyre::install()?;
-
-    let terminal = ratatui::init();
-    let result = run(terminal);
-    ratatui::restore();
-
-    return result;
-}
-
-fn run(mut terminal: DefaultTerminal) -> Result<()> {
-    loop {
-        if let Event::Key(key) = event::read()? {
-            match key.code {
-                event::KeyCode::Char('q') => break,
-                _ => {
-                }
+    while let Some(result) = stream.next().await {
+        if let Ok(response) = result {
+            if let Some(content) = response.choices[0].content() {
+                commit_message.push_str(content);
+                print!("{}", content);
             }
         }
     }
-while let Some(result) = stream.next().await {
-    if let Ok(response) = result {
-        if let Some(content) = response.choices[0].content() {
-            print!("{}", content);
-        }
-    }
-}
+    cil::commit(&commit_message);
+    cil::push();
+    println!();
     Ok(())
-} 
+}
