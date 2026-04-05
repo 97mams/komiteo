@@ -85,7 +85,7 @@ fn ui(frame: &mut Frame, app: &App) {
             Constraint::Length(3),
             Constraint::Min(1)
         ])
-        .split(frame.size());
+        .split(frame.area());
 
     let header = Paragraph::new(
         "KOMITEO\nGénérateur automatique de message de commit Git"
