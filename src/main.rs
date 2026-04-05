@@ -1,10 +1,9 @@
-use openrouter_rs::{Message, api::chat::ChatCompletionRequest, types::Role};
-// mod hello;
-// mod config;
+use futures_util::StreamExt;
+use openrouter_rs::{Message, OpenRouterClient, api::chat::ChatCompletionRequest, types::Role};
+
 mod cil;
-// mod hello;
+mod hello;
 mod config;
-// mod cil;
 
 #[tokio::main]
 async  fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -43,8 +42,8 @@ async  fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
     }
-    cil::commit(&commit_message);
-    cil::push();
+    // cil::commit(&commit_message);
+    // cil::push();
     println!();
     Ok(())
 }
