@@ -10,13 +10,13 @@ pub fn diff() -> String {
   String::from_utf8_lossy(&cmd.stdout).to_string()
  }
 
- pub fn push(message: &str) -> String {
+ pub fn commit(message: &str) -> String {
   Command::new("pwd").status().expect("Failed to display diff");
   let cmd = Command::new("git")
-    .arg("push")
+    .arg("commit")
     .args(&["-am", message])
     .output()
-    .expect("Failed to execute git push");
+    .expect("Failed to execute git commit");
 
   String::from_utf8_lossy(&cmd.stdout).to_string()
  }

@@ -15,8 +15,9 @@ pub fn get_api_key() -> Config {
 ┌──────────────────────────────────────────┐
 |                  KOMITEO                 |
 └──────────────────────────────────────────┘
-");
+        ");
         let content = fs::read_to_string(config_path).unwrap();
+        println!("{}", content);
         return Config {
             api_key: content.trim().to_string(),
         };
