@@ -43,7 +43,7 @@ async  fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
     cil::commit(&commit_message);
-    // cil::push();
+    cil::push();
     println!();
     Ok(())
 }
