@@ -1,2 +1,4 @@
 /target
 .data/*.log
+ignore.rs
+Cargo.lock
