@@ -7,5 +7,6 @@ edition = "2024"
 tracing-subscriber = "0.3.23"
 iced = { version = "0.14", features = ["image"] }
 open = "5.3.3"
+ratatui = { version = "0.30.0", default-features = false, features = ["termion"] }
 
  
