@@ -1,4 +1,4 @@
-use ratatui::widgets::Paragraph;
+use ratatui::widgets::{Block, BorderType, Borders, Paragraph};
 use ratatui::{DefaultTerminal, Frame};
 use ratatui::prelude::*;
 
@@ -24,7 +24,15 @@ fn render(frame: &mut Frame) {
                 .direction(Direction::Vertical)
                 .constraints(vec![Constraint::Percentage(90), Constraint::Percentage(10)])
                 .split(frame.area());
-    let title = Text::from("komiteo 0.0.1").fg(Color::LightYellow).bold();
-    let paragraph = Paragraph::new(title);
+    let title = "Komiteo 0.0.1";
+    let text1 = Text::from("Le CLI qui automatise votre flux Git avec l'intelligence d'OpenRouter.");
+    let paragraph = Paragraph::new(text1)
+    .style(Style::default().fg(Color::Yellow))
+    .block(
+        Block::default()
+            .borders(Borders::ALL)
+            .title(title)
+            .border_type(BorderType::Rounded)
+    );
     frame.render_widget(paragraph, layout[0]);
 }
