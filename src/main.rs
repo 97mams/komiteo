@@ -42,7 +42,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let printer = FancyPrinter::builder()
     .animation(Animation::CharacterCycling)
-    .time_delay(Duration::from_millis(100))
+    .time_delay(Duration::from_millis(1))
     .multi_line(false)
     .ignore_newlines(false)
     .build();
