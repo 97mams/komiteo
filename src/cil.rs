@@ -9,18 +9,18 @@ pub fn diff() -> String {
   String::from_utf8_lossy(&cmd.stdout).to_string()
  }
 
- pub fn commit(message: &str) {
-  Command::new("git")
-    .arg("commit")
-    .arg("-am")
-    .arg(message)
-    .status()
-    .expect("Failed to execute git commit");
- }
+//  pub fn commit(message: &str) {
+//   Command::new("git")
+//     .arg("commit")
+//     .arg("-am")
+//     .arg(message)
+//     .status()
+//     .expect("Failed to execute git commit");
+//  }
 
- pub fn push() {
-  Command::new("git")
-    .arg("push")
-    .status()
-    .expect("Failed to execute git push");
- }
+//  pub fn push() {
+//   Command::new("git")
+//     .arg("push")
+//     .status()
+//     .expect("Failed to execute git push");
+//  }

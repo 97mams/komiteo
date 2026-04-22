@@ -1,9 +1,10 @@
-use futures_util::StreamExt;
 use openrouter_rs::{
     OpenRouterClient,
     api::chat::*,
-    types::{Role, response_format},
+    types::{Role},
 };
+use fancy_print::{FancyPrinter, Animation};
+use std::time::Duration;
 
 // use std::io;
 
@@ -38,8 +39,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     {}", diff))])
         .build()?;
     let response = client.chat().create(&request).await?;
+
+    let printer = FancyPrinter::builder()
+    .animation(Animation::CharacterCycling)
+    .time_delay(Duration::from_millis(100))
+    .multi_line(false)
+    .ignore_newlines(false)
+    .build();
     
-println!("{}", response.choices[0].content().unwrap_or(""));
+  printer.print(response.choices[0].content().unwrap_or(""));
     // cil::commit(&commit_message);
     // cil::push();
     println!();
