@@ -10,5 +10,6 @@ dirs = "6.0.0"
 fancy_print = "0.1.0"
 futures-util = "0.3.32"
 openrouter-rs = "0.8.0"
+rustyline = "18.0.0"
 tinterm = "0.2.0"
 tokio = { version = "1", features = ["full"] }
