@@ -27,12 +27,21 @@ pub fn get_api_key() -> Config {
     // }
 
    let hello = hello::hello_welcome();
+    match hello {
+        Ok(api_key) => {
 
-    let config=  Config {
-        api_key: hello,
-    };
-    fs::create_dir_all(config_path.parent().unwrap()).unwrap();
-    fs::write(&config_path, config.api_key.as_bytes()).unwrap();
-
-    config
+            let config = Config {
+                api_key,
+            };
+            fs::create_dir_all(config_path.parent().unwrap()).unwrap();
+            fs::write(&config_path, config.api_key.as_bytes()).unwrap();
+        
+            config
+            
+        },
+        Err(e) => {
+            eprintln!("Error: {}", e);
+            std::process::exit(1);
+        }
+    }
 }
