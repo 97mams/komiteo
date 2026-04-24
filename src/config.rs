@@ -7,41 +7,28 @@ pub struct Config {
     pub api_key: String,
 }
 
-pub fn get_api_key() -> Config {
-
+fn save_api_key(api_key: &str) {
     let config_path = dirs::home_dir()
         .unwrap()
         .join(".komiteo/config.toml");
 
-    // if config_path.exists() {
-    //     say(Options {
-    //         text: String::from("KOMITEO"),
-    //          align: Align::Center,
-    //          colors: vec![Colors::YellowBright, Colors::YellowBright],
-    //         ..Options::default()
-    //     });
-    //     let content = fs::read_to_string(config_path).unwrap();
-    //     return Config {
-    //         api_key: content.trim().to_string(),
-    //     };
-    // }
+    fs::create_dir_all(config_path.parent().unwrap()).unwrap();
+    fs::write(config_path, api_key.as_bytes()).unwrap();
+}
 
-   let hello = hello::hello_welcome();
-    match hello {
-        Ok(api_key) => {
+pub fn get_api_key_from_config() -> String {
+    let config_path = dirs::home_dir()
+        .unwrap()
+        .join(".komiteo/config.toml");
 
-            let config = Config {
-                api_key,
-            };
-            fs::create_dir_all(config_path.parent().unwrap()).unwrap();
-            fs::write(&config_path, config.api_key.as_bytes()).unwrap();
-        
-            config
-            
-        },
-        Err(e) => {
-            eprintln!("Error: {}", e);
-            std::process::exit(1);
-        }
-    }
+    let content = fs::read_to_string(config_path).unwrap();
+    content.trim().to_string()
+}
+
+pub fn check_api_key() -> bool {
+    let config_path = dirs::home_dir()
+        .unwrap()
+        .join(".komiteo/config.toml");
+
+    config_path.exists()
 }
