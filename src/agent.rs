@@ -13,7 +13,7 @@ use std::time::Duration;
 
 #[tokio::main]
 pub async fn agent() -> Result<(), Box<dyn std::error::Error>> {
-    let config = config::get_api_key().api_key;
+    let config = config::get_api_key_from_config().trim().to_string();
     let key:&str = &config;
     let diff = cil::diff();
     let client = OpenRouterClient::builder()
