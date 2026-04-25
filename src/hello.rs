@@ -1,20 +1,15 @@
 use std::{io::{self, Write}, thread};
 
 use boxy_cli::prelude::*;
-use cfonts::{Align, Colors, Options, say};
+
 
 struct App {
     api_key: String,
 }
 
-pub fn hello_welcome() -> Result<String, Box<dyn std::error::Error>> {
+pub fn hello_welcome() {
 
-    say(Options {
-            text: String::from("KOMITEO"),
-             align: Align::Center,
-             colors: vec![Colors::YellowBright, Colors::YellowBright],
-            ..Options::default()
-        });
+    
 
     my_block(70, "Le CLI qui automatise votre flux Git avec l'intelligence d'OpenRouter.");
 
@@ -50,22 +45,7 @@ Si vous n'en avez pas encore, ne vous inquiétez pas ! C'est rapide et facile.";
     let case_if_have_api_key = "✅ Si vous avez déjà une clé API, entrez-la ci-dessous :\n";
     display_text_with_typing_effect(case_if_have_api_key);
 
-    let mut api_key = String::new();
-
-    let mut rl = rustyline::DefaultEditor::new()?;
-    let readline = rl.readline(">> ");
-    match readline {
-        Ok(line) => println!("Line: {:?}", line),
-        Err(_) => println!("No input"),
-    }
-
-    io::stdin().read_line(&mut api_key).expect("Failed to read line");
-    let api_key = api_key.trim().to_string();
-
-    let app = App { api_key };
-    return Ok(app.api_key);
-
-
+    return ();
 
 }
 
