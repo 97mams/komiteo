@@ -1,10 +1,10 @@
-mod hello;
-mod config;
-mod cil;
-mod agent;
-
+// mod hello;
+// mod config;
+// mod cil;
+// mod agent;
+mod tui;
 
 
 fn main() {
-   let _= agent::agent();
+   let _= tui::render();
 }
