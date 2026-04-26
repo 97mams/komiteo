@@ -1,13 +1,18 @@
 use std::{io::{self, Write}, thread};
-
 use boxy_cli::prelude::*;
+use cfonts::{say, Options};
 
-
-struct App {
-    api_key: String,
+pub fn hero() -> &'static str {
+    return display_text_with_typing_effect("Le CLI qui automatise votre flux Git avec l'intelligence d'OpenRouter.");
 }
 
-pub fn hello_welcome() {
+
+fn hello_welcome() {
+
+    say(Options{
+        text:String::from("komiteo"),
+        ..Options::default()
+    });
 
     
 
@@ -44,6 +49,10 @@ Si vous n'en avez pas encore, ne vous inquiétez pas ! C'est rapide et facile.";
 
     let case_if_have_api_key = "✅ Si vous avez déjà une clé API, entrez-la ci-dessous :\n";
     display_text_with_typing_effect(case_if_have_api_key);
+    let mut api_key = String::new();
+    println!("┌─────────────────────────────┐");
+    io::stdin().read_line(&mut api_key).expect("Failed to read line");
+    println!("└─────────────────────────────┘");
 
     return ();
 
