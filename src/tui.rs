@@ -8,7 +8,8 @@ use ratatui::{
     prelude::*,
     widgets::{Block, Borders, Paragraph, Wrap},
 };
-use tui_big_text::{BigText, PixelSize};
+
+use crate::hello;
 
 // use crate::config;
 // use crate::hello;
@@ -21,14 +22,16 @@ pub fn render() -> Result<(), io::Error> {
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
 
-    let title = BigText::builder()
-        .pixel_size(PixelSize::Octant)
-        .style(Style::new().light_blue())
-        .lines(vec!["komiteo".light_yellow().into()])
-        .build();
-
+    let title ="
+ ██╗  ██╗  ██████╗  ███╗   ███╗ ██╗ ████████╗ ███████╗  ██████╗ 
+ ██║ ██╔╝ ██╔═══██╗ ████╗ ████║ ██║ ╚══██╔══╝ ██╔════╝ ██╔═══██╗
+ █████╔╝  ██║   ██║ ██╔████╔██║ ██║    ██║    █████╗   ██║   ██║
+ ██╔═██╗  ██║   ██║ ██║╚██╔╝██║ ██║    ██║    ██╔══╝   ██║   ██║
+ ██║  ██╗ ╚██████╔╝ ██║ ╚═╝ ██║ ██║    ██║    ███████╗ ╚██████╔╝
+ ╚═╝  ╚═╝  ╚═════╝  ╚═╝     ╚═╝ ╚═╝    ╚═╝    ╚══════╝  ╚═════╝ 
+";
     let mut input = String::new();
-    let mut messages: Vec<String> = vec![format!("{:?}", title)];
+    let mut messages= vec![ title.into(), hello::hero() ];
 
     loop {
         terminal.draw(|f| {
@@ -44,9 +47,9 @@ pub fn render() -> Result<(), io::Error> {
                 .split(size);
 
             // messages (join avec newline)
-            let text = messages.join("\n");
+            // let text = messages.join("\n");
 
-            let messages_widget = Paragraph::new(text)
+            let messages_widget = Paragraph::new(messages.join("\n"))
                 .block(Block::default())
                 .wrap(Wrap { trim: true });
 
@@ -80,7 +83,7 @@ pub fn render() -> Result<(), io::Error> {
 
                 KeyCode::Enter => {
                     if !input.trim().is_empty() {
-                        messages.push(format!("> {}", input));
+                        // messages.push(format!("> {}", input));
                     }
                     input.clear();
                 }
