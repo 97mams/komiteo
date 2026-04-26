@@ -1,4 +1,4 @@
-// mod hello;
+mod hello;
 // mod config;
 // mod cil;
 // mod agent;
