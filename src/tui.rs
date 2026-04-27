@@ -31,7 +31,7 @@ pub fn render() -> Result<(), io::Error> {
  ╚═╝  ╚═╝  ╚═════╝  ╚═╝     ╚═╝ ╚═╝    ╚═╝    ╚══════╝  ╚═════╝ 
 ";
     let mut input = String::new();
-    let mut messages= vec![ title.into(), hello::hero() ];
+    let  messages= vec![ title.into(), hello::hero(), hello::description() ];
 
     loop {
         terminal.draw(|f| {
@@ -60,7 +60,7 @@ pub fn render() -> Result<(), io::Error> {
                 .block(
                     Block::default()
                         .borders(Borders::TOP | Borders::BOTTOM)
-                        .title("Message"),
+                        .title("Si vous avez déjà une clé API, entrez-la ci-dessous"),
                 );
 
             f.render_widget(input_widget, chunks[1]);
