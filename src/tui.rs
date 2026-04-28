@@ -6,8 +6,9 @@ use crossterm::{
 };
 use ratatui::{
     prelude::*,
-    widgets::{Block, Borders, Paragraph, Wrap},
+    widgets::{Block, Borders, Padding, Paragraph, Wrap},
 };
+use tui_textarea::{Input, TextArea};
 
 use crate::hello;
 
@@ -21,6 +22,7 @@ pub fn render() -> Result<(), io::Error> {
 
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
+    let mut textarea = TextArea::default();
 
     let title ="
  ██╗  ██╗  ██████╗  ███╗   ███╗ ██╗ ████████╗ ███████╗  ██████╗ 
@@ -50,28 +52,30 @@ pub fn render() -> Result<(), io::Error> {
             // let text = messages.join("\n");
 
             let messages_widget = Paragraph::new(messages.join("\n"))
-                .block(Block::default())
+                .block(Block::default().padding(Padding::left(2)))
                 .wrap(Wrap { trim: true });
 
             f.render_widget(messages_widget, chunks[0]);
 
             // input box
-            let input_widget = Paragraph::new(input.as_str())
-                .block(
-                    Block::default()
-                        .borders(Borders::TOP | Borders::BOTTOM)
-                        .title("Si vous avez déjà une clé API, entrez-la ci-dessous"),
-                );
+            // let input_widget = Paragraph::new(input.as_str())
+            //     .block(
+            //         Block::default()
+            //             .borders(Borders::TOP | Borders::BOTTOM)
+            //             .title("Si vous avez déjà une clé API, entrez-la ci-dessous"),
+            //     );
 
-            f.render_widget(input_widget, chunks[1]);
+            // f.render_widget(input_widget, chunks[1]);
 
-            // curseur dans l’input
-            f.set_cursor(
-                chunks[1].x + input.len() as u16 + 1,
-                chunks[1].y + 1,
-            );
+            // // curseur dans l’input
+            // f.set_cursor(
+            //     chunks[1].x + input.len() as u16 + 1,
+            //     chunks[1].y + 1,
+            // );
         })?;
 
+
+        
         // input clavier
         if let Event::Key(key) = event::read()? {
             match key.code {
@@ -82,16 +86,17 @@ pub fn render() -> Result<(), io::Error> {
                 }
 
                 KeyCode::Enter => {
-                    if !input.trim().is_empty() {
-                        // messages.push(format!("> {}", input));
-                    }
-                    input.clear();
+                    // if !input.trim().is_empty() {
+                    //     messages.push("Merci pour votre clé API !".into());
+                    // }
+                    // input.clear();
                 }
 
                 KeyCode::Esc => break,
 
                 _ => {}
             }
+            textarea.input(Input::from(key));
         }
     }
 
