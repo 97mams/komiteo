@@ -97,5 +97,6 @@ pub fn render() -> Result<(), io::Error> {
 
     disable_raw_mode()?;
     execute!(terminal.backend_mut(), LeaveAlternateScreen)?;
+    println!("Merci d'avoir utilisé notre application !");
     Ok(())
 }
