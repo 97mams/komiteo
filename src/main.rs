@@ -1,4 +1,5 @@
 mod hello;
+mod cmd;
 // mod config;
 // mod cil;
 // mod agent;
