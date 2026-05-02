@@ -3,10 +3,6 @@ use std::fs;
 // use crate::hello;
 // use cfonts::{Align, Colors, Options, say};
 
-pub struct Config {
-    pub api_key: String,
-}
-
 pub fn save_api_key(api_key: &str) {
     let config_path = dirs::home_dir()
         .unwrap()
@@ -14,6 +10,8 @@ pub fn save_api_key(api_key: &str) {
 
     fs::create_dir_all(config_path.parent().unwrap()).unwrap();
     fs::write(config_path, api_key.as_bytes()).unwrap();
+
+    print!("\nClé API enregistrée avec succès !\n");
 }
 
 pub fn get_api_key_from_config() -> String {

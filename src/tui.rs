@@ -9,6 +9,4 @@ pub fn render() {
   hello::hero();
   hello::description();
   hello::input();
-
-  
 }
