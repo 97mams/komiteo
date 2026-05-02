@@ -7,5 +7,8 @@ use crate::hello;
 pub fn render() {
   hello::logo();
   hello::hero();
-  hello::description()
+  hello::description();
+  hello::input();
+
+  
 }
