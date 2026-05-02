@@ -7,7 +7,7 @@ pub struct Config {
     pub api_key: String,
 }
 
-fn save_api_key(api_key: &str) {
+pub fn save_api_key(api_key: &str) {
     let config_path = dirs::home_dir()
         .unwrap()
         .join(".komiteo/config.toml");
