@@ -5,8 +5,8 @@ use crate::hello;
 // use crate::hello;
 
 pub fn render() {
-  hello::logo();
-  hello::hero();
-  hello::description();
-  hello::input();
+    hello::logo();
+    hello::hero();
+    hello::description();
+    hello::input();
 }

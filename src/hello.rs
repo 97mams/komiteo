@@ -16,6 +16,7 @@ pub fn input(){
     println!("Vous avez entré: {}", input.trim());
     print!("\n\n");
     if config::check_api_key() {
+        println!("liste api key déjà configuré: {}", config::get_api_key_from_config());
         config::save_api_key(input.trim());
     } else {
         let inpu_client = input.trim().to_string();
