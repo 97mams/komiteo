@@ -1,8 +1,8 @@
 mod hello;
 mod cmd;
 mod config;
-// mod cil;
-// mod agent;
+mod cil;
+mod agent;
 mod tui;
 
 

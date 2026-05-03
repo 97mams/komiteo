@@ -36,17 +36,10 @@ pub async fn agent() -> Result<(), Box<dyn std::error::Error>> {
     {}", diff))])
         .build()?;
     let response = client.chat().create(&request).await?;
-
-    let printer = FancyPrinter::builder()
-    .animation(Animation::CharacterCycling)
-    .time_delay(Duration::from_millis(1))
-    .multi_line(false)
-    .ignore_newlines(false)
-    .build();
     
-  printer.print(response.choices[0].content().unwrap_or(""));
     // cil::commit(&commit_message);
     // cil::push();
-    println!();
+    print!("Press Enter to continue...");
+    println!("{}", response.choices[0].content().unwrap_or("Error: No content in response"));
     Ok(())
 }
