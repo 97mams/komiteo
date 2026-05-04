@@ -20,6 +20,11 @@ pub async fn agent() -> Result<(), Box<dyn std::error::Error>> {
         .api_key(key)
         .build()?;
 
+    if diff.is_empty() {
+        println!("");
+        return Ok(());
+    }
+
     let request = ChatCompletionRequest::builder()
         .model("openrouter/owl-alpha")
         .messages(vec![Message::new(Role::User, format!("Generate a short Git commit message in English based on this git diff.
@@ -37,7 +42,7 @@ pub async fn agent() -> Result<(), Box<dyn std::error::Error>> {
         .build()?;
 
     let response = client.chat().create(&request).await?;
-    // cil::commit(&commit_message);
+    cil::commit(&response.choices[0].content().unwrap_or("").to_string());
     // cil::push();
     println!("{}", response.choices[0].content().unwrap_or(""));
     Ok(())

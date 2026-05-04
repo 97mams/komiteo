@@ -6,17 +6,22 @@ pub fn diff() -> String {
     .output()
     .expect("Failed to execute git diff");
 
-  String::from_utf8_lossy(&cmd.stdout).to_string()
+  let response =String::from_utf8_lossy(&cmd.stdout).to_string();
+
+  if response.is_empty() {
+    return "".to_string();
+  }
+  response
  }
 
-//  pub fn commit(message: &str) {
-//   Command::new("git")
-//     .arg("commit")
-//     .arg("-am")
-//     .arg(message)
-//     .status()
-//     .expect("Failed to execute git commit");
-//  }
+ pub fn commit(message: &str) {
+  Command::new("git")
+    .arg("commit")
+    .arg("-am")
+    .arg(message)
+    .status()
+    .expect("Failed to execute git commit");
+ }
 
 //  pub fn push() {
 //   Command::new("git")
