@@ -3,7 +3,7 @@ use std::{ io::{self, Write}, thread};
 use boxy_cli::prelude::*;
 use cfonts::{Align, Colors, Options, say};
 
-use crate::config;
+use crate::config::config;
 // use crate::cmd;
 
 pub fn input(){
