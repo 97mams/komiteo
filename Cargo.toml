@@ -12,3 +12,4 @@ openrouter-rs = "0.8.0"
 tokio = { version = "1", features = ["full"] }
 crossterm = "0.27"
 spinners = "4.2.0"
+indicatif = "0.18.4"
