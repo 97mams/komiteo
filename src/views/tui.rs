@@ -1,6 +1,6 @@
 use crate::views::hello;
 // use crate::cmd;
-use crate::agent::openrouter;
+use crate::agent;
 use crate::config::config;
 // use crate::hello;
 
@@ -10,8 +10,6 @@ pub async  fn render() {
     if !config::check_api_key() {
         hello::description();
     }
-   if let Err(e) = openrouter::agent().await {
-        println!("Erreur: {:?}", e);
-    }
+   agent::run_agent_with_spinner().await;
     // hello::input();
 }
