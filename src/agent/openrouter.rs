@@ -3,6 +3,7 @@ use std::time::Duration;
 use crate::config::config;
 use crate::git::cil;
 
+use fancy_print::{Animation, FancyPrinter};
 use indicatif::{ProgressBar, ProgressStyle};
 use openrouter_rs::{
     OpenRouterClient,
@@ -20,7 +21,7 @@ pub async fn agent() -> Result<(), Box<dyn std::error::Error>> {
     let pb = ProgressBar::new_spinner();
     pb.enable_steady_tick(Duration::from_millis(120));
     pb.set_style(
-        ProgressStyle::with_template("{spinner:.blue} {msg}")
+        ProgressStyle::with_template("{spinner:.green} {msg}")
             .unwrap()
             // Choose the tick strings (the characters that cycle)
             .tick_strings(&["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏", " "]),
@@ -56,8 +57,16 @@ pub async fn agent() -> Result<(), Box<dyn std::error::Error>> {
     let message = response.choices[0].content().unwrap_or("").to_string();
     let commit_message = cil::commit(&message);
     // cil::push();
-    pb.finish_with_message("Terminé!");
-    println!("{}", commit_message);
+    pb.finish_with_message("Commit terminé!");
+
+    let printer = FancyPrinter::builder()
+    .animation(Animation::CharacterCycling)
+    .time_delay(Duration::from_millis(2))
+    .multi_line(false)
+    .ignore_newlines(false)
+    .build();
+
+    printer.print(commit_message);
 
     Ok(())
 }
