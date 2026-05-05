@@ -43,8 +43,8 @@ pub async fn agent() -> Result<String, Box<dyn std::error::Error>> {
 
     let response = client.chat().create(&request).await?;
     let message = response.choices[0].content().unwrap_or("").to_string();
-    cil::commit(&message);
+    let commit_message = cil::commit(&message);
     // cil::push();
 
-    Ok(message)
+    Ok(commit_message)
 }

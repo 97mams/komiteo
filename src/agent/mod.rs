@@ -1,5 +1,3 @@
-use std::thread::sleep;
-
 use spinners::{Spinner, Spinners};
 
 pub mod openrouter;

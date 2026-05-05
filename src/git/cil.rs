@@ -14,13 +14,20 @@ pub fn diff() -> String {
   response
  }
 
- pub fn commit(message: &str) {
-  Command::new("git")
+ pub fn commit(message: &str) ->String {
+  let cmd = Command::new("git")
     .arg("commit")
     .arg("-am")
     .arg(message)
-    .status()
+    .output()
     .expect("Failed to execute git commit");
+
+  let response =String::from_utf8_lossy(&cmd.stdout).to_string();
+
+  if response.is_empty() {
+    return "".to_string();
+  }
+  response
  }
 
 //  pub fn push() {
