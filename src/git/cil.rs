@@ -14,7 +14,7 @@ pub fn diff() -> String {
   response
  }
 
- pub fn commit(message: &str) ->String {
+ pub fn commit(message: &str) -> String {
   let cmd = Command::new("git")
     .arg("commit")
     .arg("-am")
