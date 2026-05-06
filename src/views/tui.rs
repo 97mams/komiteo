@@ -13,5 +13,4 @@ pub async  fn render() {
    if let Err(e) = openrouter::agent().await {
         println!("Erreur: {:?}", e);
     }
-    // hello::input();
 }
