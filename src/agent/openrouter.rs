@@ -55,18 +55,18 @@ pub async fn agent() -> Result<(), Box<dyn std::error::Error>> {
 
     let response = client.chat().create(&request).await?;
     let message = response.choices[0].content().unwrap_or("").to_string();
-    let commit_message = cil::commit(&message);
+    // let commit_message = cil::commit(&message);
     // cil::push();
     pb.finish_with_message("Commit terminé!");
 
     let printer = FancyPrinter::builder()
     .animation(Animation::CharacterCycling)
-    .time_delay(Duration::from_millis(2))
+    .time_delay(Duration::from_millis(1))
     .multi_line(false)
     .ignore_newlines(false)
     .build();
 
-    printer.print(commit_message);
+    printer.print(message);
 
     Ok(())
 }
