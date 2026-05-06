@@ -4,28 +4,7 @@ use boxy_cli::prelude::*;
 use cfonts::{Align, Colors, Options, say};
 
 use crate::config::config;
-// use crate::cmd;
-
-pub fn input(){
-    let mut input = String::new();
-        print!("\nSi vous avez déjà une clé API, veuillez la saisir ici: \n");
-        io::stdin()
-            .read_line(&mut input)
-            .expect("Failed to read line");
-
-    println!("Vous avez entré: {}", input.trim());
-    print!("\n\n");
-    if config::check_api_key() {
-        println!("liste api key déjà configuré: {}", config::get_api_key_from_config());
-        config::save_api_key(input.trim());
-    } else {
-        let inpu_client = input.trim().to_string();
-        
-        println!("Vous avez entré: {}", inpu_client);
-        // cmd::komiteo_cmd(cmd, arg)
-    }
-
-}
+// use crate::cmd
 
 pub fn hero() {
     return  my_block(50, "Le CLI qui automatise votre flux Git avec l'intelligence d'OpenRouter. \n\n");
