@@ -1,9 +1,9 @@
 use std::process::Command;
 
-pub fn komiteo_cmd(cmd: &str, arg: &str) -> String {
+pub fn komiteo_cmd(cmd: String, arg: Vec<String>) -> String {
     let output = Command::new(cmd)
-                    .arg(arg)
+                    .args(arg)
                     .output()
-                    .expect("Faild to execut this command !");
+                    .expect("Failed to execute this command !");
     return String::from_utf8_lossy(&output.stdout).to_string();
 }
