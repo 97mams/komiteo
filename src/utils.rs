@@ -4,11 +4,10 @@ struct command {
 }
 
 impl command {
-    pub fn parse_cmd(cmd: &str) -> command {
-    let mut parts = cmd.split_whitespace();
+    pub fn parse_cmd(value: Vec<&str>) -> command {
     let mut args = Vec::new();
-    while let Some(part) = parts.next() {
-        args.push(part);
+    while let Some(value) = value.next() {
+        args.push(value);
     }
     command {cmd: args[0].to_string(), arg: args[1..].to_vec()}
 }}
