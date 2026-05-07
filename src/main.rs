@@ -2,8 +2,10 @@
 mod config;
 mod agent;
 mod git;
+mod command;
 mod views;
 mod event;
+mod utils;
 
 use crate::views::tui;
 
