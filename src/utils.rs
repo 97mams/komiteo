@@ -1,13 +1,16 @@
-struct command {
-    cmd: String,
-    arg: Vec<&str>,
+pub struct Command {
+    pub cmd: String,
+    pub arg: Vec<String>,
 }
 
-impl command {
-    pub fn parse_cmd(value: Vec<&str>) -> command {
-    let mut args = Vec::new();
-    while let Some(value) = value.next() {
-        args.push(value);
+impl Command {
+    pub fn parse_cmd(value: Vec<&str>) -> Command {
+        let mut iter = value.into_iter();
+
+        let cmd = iter.next().unwrap_or("").to_string();
+
+        let arg = iter.map(|s| s.to_string()).collect();
+
+        Command { cmd, arg }
     }
-    command {cmd: args[0].to_string(), arg: args[1..].to_vec()}
-}}
+}
