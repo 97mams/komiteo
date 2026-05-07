@@ -1,4 +1,7 @@
+use crossterm::style::Stylize;
+
 use crate::views::hello;
+use crate::event;
 // use crate::cmd;
 use crate::agent::openrouter;
 use crate::config::config;
@@ -13,4 +16,6 @@ pub async  fn render() {
    if let Err(e) = openrouter::agent().await {
         println!("Erreur: {:?}", e);
     }
+    let _ = event::input();
+    println!("{}", "Ctrl+c pour quitter".grey());
 }
