@@ -33,7 +33,7 @@ pub fn input()->rustyline::Result<()>{
                     if config::check_api_key() {
                         // if true in the config file, then we can use the command
                         let command = Command::parse_cmd(value);
-                        cmd::komiteo_cmd(command.cmd, command.arg);
+                       println!("{}",cmd::komiteo_cmd(command.cmd, command.arg));
                     } else {
                         config::save_api_key(line.as_str());
                     }
