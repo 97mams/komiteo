@@ -1,5 +1,3 @@
-use crossterm::style::Stylize;
-
 use crate::views::hello;
 use crate::event;
 // use crate::cmd;
@@ -17,5 +15,4 @@ pub async  fn render() {
         println!("Erreur: {:?}", e);
     }
     let _ = event::input();
-    println!("{}", "Ctrl+c pour quitter".grey());
 }
