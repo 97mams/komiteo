@@ -2,8 +2,8 @@ use std::time::Duration;
 
 use crate::config::config;
 use crate::git::cil;
+use crate::views::hello;
 
-use fancy_print::{Animation, FancyPrinter};
 use indicatif::{ProgressBar, ProgressStyle};
 use openrouter_rs::{
     OpenRouterClient,
@@ -59,14 +59,9 @@ pub async fn agent() -> Result<(), Box<dyn std::error::Error>> {
     // cil::push();
     pb.finish_with_message("Commit terminé!");
 
-    let printer = FancyPrinter::builder()
-    .animation(Animation::CharacterCycling)
-    .time_delay(Duration::from_millis(1))
-    .multi_line(false)
-    .ignore_newlines(false)
-    .build();
 
-    printer.print(message);
+    hello::display_text_with_typing_effect(format!(" - {} \n", &message).as_mut_str());
+
 
     Ok(())
 }
