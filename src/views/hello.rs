@@ -4,7 +4,6 @@ use boxy_cli::prelude::*;
 use cfonts::{Align, Colors, Options, say};
 
 use crate::config::config;
-// use crate::cmd
 
 pub fn hero() {
     return  my_block(50, "Le CLI qui automatise votre flux Git avec l'intelligence d'OpenRouter. \n\n");
@@ -24,12 +23,22 @@ et écrire des messages de commit clairs, concis et standardisés.\n\nFaite (ctl
 }
 
 pub fn logo () {
-    say(Options{
-        text: String::from("komiteo"),
-        colors: vec![Colors::YellowBright,Colors::YellowBright],
-        align: Align::Center,
-        ..Options::default()
-    });
+    if !config::check_api_key() {
+        say(Options{
+            text: String::from("komiteo"),
+            colors: vec![Colors::GreenBright,Colors::GreenBright],
+            align: Align::Center,
+            ..Options::default()
+        });
+    } else {
+        say(Options{
+            text: String::from("komiteo"),
+            colors: vec![Colors::YellowBright,Colors::YellowBright],
+            align: Align::Left,
+            font: cfonts::Fonts::FontTiny,
+            ..Options::default()
+        });
+    }
 }
 
 //box 
@@ -45,7 +54,7 @@ fn my_block(size: usize, text: &str) {
 
 
 // animated text
-fn display_text_with_typing_effect(text: &str) {
+pub fn display_text_with_typing_effect(text: &str) {
     for c in text.chars() {
         print!("{}", c);
         io::stdout().flush().unwrap();
