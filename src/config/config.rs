@@ -1,17 +1,23 @@
 
 use std::fs;
-// use crate::hello;
+use crate::views::hello;
 // use cfonts::{Align, Colors, Options, say};
 
 pub fn save_api_key(api_key: &str) {
-    let config_path = dirs::home_dir()
-        .unwrap()
-        .join(".komiteo/config.toml");
 
-    fs::create_dir_all(config_path.parent().unwrap()).unwrap();
-    fs::write(config_path, api_key.as_bytes()).unwrap();
-
-    print!("\nClé API enregistrée avec succès !\n");
+    if api_validator(api_key) {
+            let config_path = dirs::home_dir()
+                .unwrap()
+                .join(".komiteo/config.toml");
+        
+            fs::create_dir_all(config_path.parent().unwrap()).unwrap();
+            fs::write(config_path, api_key.as_bytes()).unwrap();
+        
+            hello::display_text_with_typing_effect("\nClé API enregistrée avec succès !\n Votre agent de auto-commit est actif.\n");
+    } else {
+        println!("\nClé API invalide. Veuillez réessayer.\n");
+        return;
+    }
 }
 
 pub fn get_api_key_from_config() -> String {
@@ -29,4 +35,8 @@ pub fn check_api_key() -> bool {
         .join(".komiteo/config.toml");
 
     config_path.exists()
+}
+
+pub fn api_validator(api_key: &str) -> bool {
+    api_key.len() == 73
 }
