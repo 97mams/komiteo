@@ -17,7 +17,10 @@ pub async fn agent() -> Result<(), Box<dyn std::error::Error>> {
     let config = config::get_api_key_from_config().trim().to_string();
     let key:&str = &config;
     let diff = cil::diff();
-
+    if diff.is_empty() {
+        hello::display_text_with_typing_effect(" Le prochain commit peut changer tout le projet…\n continue de coder.");
+        return Ok(());
+    }
     let pb = ProgressBar::new_spinner();
     pb.enable_steady_tick(Duration::from_millis(120));
     pb.set_style(
@@ -32,10 +35,7 @@ pub async fn agent() -> Result<(), Box<dyn std::error::Error>> {
         .api_key(key)
         .build()?;
 
-    if diff.is_empty() {
-        println!("");
-        return Ok(());
-    }
+   
 
     let request = ChatCompletionRequest::builder()
         .model("openrouter/owl-alpha")
