@@ -18,7 +18,7 @@ pub async fn agent() -> Result<(), Box<dyn std::error::Error>> {
     let key:&str = &config;
     let diff = cil::diff();
     if diff.is_empty() {
-        hello::display_text_with_typing_effect(" Le prochain commit peut changer tout le projet…\n continue de coder.");
+        hello::display_text_with_typing_effect(" Le prochain commit peut changer tout le projet…\n continue de coder.\n");
         return Ok(());
     }
     let pb = ProgressBar::new_spinner();
