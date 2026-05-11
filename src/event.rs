@@ -19,6 +19,9 @@ pub fn input()->rustyline::Result<()>{
             rl.add_history_entry(line.as_str())?;
             let value = line.split_whitespace().collect::<Vec<&str>>();
             match value[0] {
+                "komiteo" => {
+                    let _ = crate::views::tui::render_state();
+                },
                 "reconfig" => {
                     reconfig();
                 },
