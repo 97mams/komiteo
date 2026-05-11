@@ -14,3 +14,7 @@ impl Command {
         Command { cmd, arg }
     }
 }
+
+pub fn clean_file_name(file_name: String) -> String {
+     file_name.trim().split(" ").last().unwrap_or("").to_string()
+}
