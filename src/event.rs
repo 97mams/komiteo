@@ -7,7 +7,7 @@ use crate::utils::Command;
 use crate::command::cmd;
 use rustyline::{DefaultEditor, error::ReadlineError};
 
-pub fn input()->rustyline::Result<()>{
+pub async fn input() -> rustyline::Result<()> {
 
     let defalut_commands = vec!["reconfig", "help", "exit"];
 
@@ -20,7 +20,7 @@ pub fn input()->rustyline::Result<()>{
             let value = line.split_whitespace().collect::<Vec<&str>>();
             match value[0] {
                 "komiteo" => {
-                    let _ = crate::views::tui::render_state();
+                    let _ = crate::views::tui::render_state().await;
                 },
                 "reconfig" => {
                     reconfig();
