@@ -1,6 +1,4 @@
-use crate::event;
 use crate::views::hello;
-// use crate::cmd;
 use crate::agent::openrouter;
 use crate::config::config;
 use crate::git::cil;
@@ -13,8 +11,6 @@ pub async fn render() {
     } else {
         render_state().await;
     }
-
-    let _ = event::input();
 }
 
 
