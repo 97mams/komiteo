@@ -12,4 +12,5 @@ use crate::views::tui;
 #[tokio::main]
 async fn main() {
     tui::render().await;
+    let _ = event::input();
 }
