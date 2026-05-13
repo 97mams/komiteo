@@ -2,6 +2,7 @@ use std::time::Duration;
 
 use crate::config::config;
 use crate::views::hello;
+use crate::git::cil;
 
 use crossterm::style::Stylize;
 use indicatif::{ProgressBar, ProgressStyle};
@@ -20,15 +21,13 @@ pub async fn agent(diff: String, file:String) -> Result<(), Box<dyn std::error::
         ProgressStyle::with_template("{spinner:.green} {msg}")
             .unwrap()
             // Choose the tick strings (the characters that cycle)
-            .tick_strings(&["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏", "-"]),
+            .tick_strings(&["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏", " -"]),
     );
     pb.set_message("En attente...");
 
     let client = OpenRouterClient::builder()
         .api_key(key)
         .build()?;
-
-   
 
     let request = ChatCompletionRequest::builder()
         .model("openrouter/owl-alpha")
@@ -48,13 +47,11 @@ pub async fn agent(diff: String, file:String) -> Result<(), Box<dyn std::error::
 
     let response = client.chat().create(&request).await?;
     let message = response.choices[0].content().unwrap_or("").to_string();
-    // let commit_message = cil::commit(&message);
+    let _ = cil::commit(&message);
     // cil::push();
-    pb.finish_with_message(file.green().to_string());
-
+    pb.finish_with_message(file.trim().green().to_string());
 
     hello::display_text_with_typing_effect(format!(" - {} \n", &message).as_mut_str());
-
 
     Ok(())
 }

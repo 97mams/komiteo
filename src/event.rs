@@ -20,7 +20,7 @@ pub async fn input() -> rustyline::Result<()> {
             let value = line.split_whitespace().collect::<Vec<&str>>();
             match value[0] {
                 "komiteo" => {
-                    let _ = crate::views::tui::render_state().await;
+                    crate::views::tui::render_state().await;
                 },
                 "reconfig" => {
                     reconfig();
