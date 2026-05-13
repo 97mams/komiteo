@@ -32,7 +32,7 @@ pub fn diff(file_name: String) -> String {
  pub fn commit(message: &str) -> String {
   let cmd = Command::new("git")
     .arg("commit")
-    .arg("-am")
+    .arg("-m")
     .arg(message)
     .output()
     .expect("Failed to execute git commit");
