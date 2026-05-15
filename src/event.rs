@@ -1,15 +1,10 @@
-// use std::io;
-
-// use colored::Colorize;
-
 use crate::config::config;
 use crate::utils::Command;
 use crate::command::cmd;
+use colored::Colorize;
 use rustyline::{DefaultEditor, error::ReadlineError};
 
 pub async fn input() -> rustyline::Result<()> {
-
-    let defalut_commands = vec!["reconfig", "help", "exit"];
 
     let mut rl = DefaultEditor::new()?;
     loop {
@@ -27,8 +22,8 @@ pub async fn input() -> rustyline::Result<()> {
                 },
                 "help" => {
                     println!("Voici les commandes disponibles :");
-                    for cmd in &defalut_commands {
-                        println!("- {} ", cmd);
+                    for cmd in &build_list_of_commands() {
+                        println!("- {} ", cmd.green());
                     }
                 },
                 "exit" => break,
@@ -58,4 +53,24 @@ pub async fn input() -> rustyline::Result<()> {
 
 fn reconfig() {
     println!("Veuillez entrer votre nouvelle clé API :");
+}
+
+fn build_list_of_commands() -> Vec<String> {
+    let mut commands = Vec::new();
+     commands.push(add_point_separated("komiteo", "Raccourci pour lancer le commit manuel.".to_string()));
+    commands.push(add_point_separated("reconfig", "Reconfigure le clé API".to_string()));
+    commands.push(add_point_separated("help", "Afficher les commandes disponibles".to_string()));
+    commands.push(add_point_separated("exit", "Quitter l'application".to_string()));
+    
+    commands
+}
+
+fn add_point_separated(namecmd: &str, doc: String)-> String {
+    let mut result = namecmd.to_owned();
+    let number_of_pointers = 20;
+    let calculated_pointers = number_of_pointers - namecmd.len();
+    result.push_str(".".repeat(calculated_pointers).as_str());
+    result.push_str(doc.as_str());
+
+    return result;
 }
