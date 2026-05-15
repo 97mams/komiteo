@@ -48,7 +48,6 @@ pub async fn agent(diff: String, file:String) -> Result<(), Box<dyn std::error::
     let response = client.chat().create(&request).await?;
     let message = response.choices[0].content().unwrap_or("").to_string();
     let _ = cil::commit(&message);
-    // cil::push();
     pb.finish_with_message(file.trim().green().to_string());
 
     hello::display_text_with_typing_effect(format!(" - {} \n", &message).as_mut_str());
