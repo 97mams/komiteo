@@ -1,3 +1,5 @@
+use colored::Colorize;
+
 use crate::views::hello;
 use crate::agent::openrouter;
 use crate::config::config;
@@ -10,6 +12,7 @@ pub async fn render() {
         hello::description();
     } else {
         render_state().await;
+        println!(" Tapez {} si vous avez besoin d'aide.."," help ".on_bright_yellow());
     }
 }
 
