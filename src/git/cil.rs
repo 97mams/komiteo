@@ -47,17 +47,10 @@ pub fn commit(message: &str) -> String {
   response
 }
 
-pub fn stagefile(file_name: String) -> String {
-  let cmd = Command::new("git")
+pub fn stagefile(file_name: String)  {
+    Command::new("git")
     .arg("add")
     .arg(file_name)
-    .output()
+    .status()
     .expect("Failed to execute git add");
-
-  let response =String::from_utf8_lossy(&cmd.stdout).to_string();
-
-  if response.is_empty() {
-    return "".to_string();
-  }
-  response
 }
