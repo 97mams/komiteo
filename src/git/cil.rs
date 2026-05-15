@@ -16,7 +16,7 @@ pub fn check_status() -> Vec<String> {
 pub fn diff(file_name: String) -> String {
   let file = clean_file_name(file_name);
 
-  let s =  stagefile(file.clone());
+  stagefile(file.clone());
   let cmd = Command::new("git")
     .arg("diff")
     .arg(file)
