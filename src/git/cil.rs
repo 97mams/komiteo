@@ -15,6 +15,8 @@ pub fn check_status() -> Vec<String> {
 
 pub fn diff(file_name: String) -> String {
   let file = clean_file_name(file_name);
+
+  let s =  stagefile(file.clone());
   let cmd = Command::new("git")
     .arg("diff")
     .arg(file)
@@ -29,7 +31,7 @@ pub fn diff(file_name: String) -> String {
   response
  }
 
- pub fn commit(message: &str) -> String {
+pub fn commit(message: &str) -> String {
   let cmd = Command::new("git")
     .arg("commit")
     .arg("-m")
@@ -43,11 +45,19 @@ pub fn diff(file_name: String) -> String {
     return "".to_string();
   }
   response
- }
+}
 
-//  pub fn push() {
-//   Command::new("git")
-//     .arg("push")
-//     .status()
-//     .expect("Failed to execute git push");
-//  }
+pub fn stagefile(file_name: String) -> String {
+  let cmd = Command::new("git")
+    .arg("add")
+    .arg(file_name)
+    .output()
+    .expect("Failed to execute git add");
+
+  let response =String::from_utf8_lossy(&cmd.stdout).to_string();
+
+  if response.is_empty() {
+    return "".to_string();
+  }
+  response
+}
