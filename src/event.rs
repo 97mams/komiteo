@@ -57,7 +57,7 @@ fn reconfig() {
 
 fn build_list_of_commands() -> Vec<String> {
     let mut commands = Vec::new();
-     commands.push(add_point_separated("komiteo", "Raccourci pour lancer le commit manuel.".to_string()));
+     commands.push(add_point_separated("komiteo", "commande pour lancer le commit manuel.".to_string()));
     commands.push(add_point_separated("reconfig", "Reconfigure le clé API".to_string()));
     commands.push(add_point_separated("help", "Afficher les commandes disponibles".to_string()));
     commands.push(add_point_separated("exit", "Quitter l'application".to_string()));
