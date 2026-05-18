@@ -24,7 +24,7 @@ pub fn check_status() -> Vec<String> {
 
   let response =String::from_utf8_lossy(&cmd.stdout).to_string();
 
-  response.lines().map(|s| s.to_string()).collect()
+  response.lines().map(|s| s.to_string()).rev().collect()
  }
 
 pub fn diff(file_name: String) -> String {
