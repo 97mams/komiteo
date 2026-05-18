@@ -1,6 +1,20 @@
 use std::process::Command;
 
 use crate::utils::clean_file_name;
+
+pub fn git_init() -> String {
+  let cmd = Command::new("git")
+    .arg("init")
+    .output()
+    .expect("Failed to execute git init");
+
+  let response =String::from_utf8_lossy(&cmd.stdout).to_string();
+
+  if response.is_empty() {
+    return "".to_string();
+  }
+  response
+ }
  
 pub fn check_status() -> Vec<String> {
   let cmd = Command::new("git")
