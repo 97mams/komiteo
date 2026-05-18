@@ -23,7 +23,15 @@ pub async fn render_state() {
         hello::display_text_with_typing_effect(
             " Le prochain commit peut changer tout le projet…\n continue de coder.\n",
         );
+        return ;
     }
+
+    if status[0] == "fatal: ni ceci ni aucun de ses répertoires parents n'est un dépôt git : .git" {        
+        hello::display_text_with_typing_effect(cil::git_init().as_mut_str()
+        );
+        return ;
+    }
+
     for file in status {
         let diff = cil::diff(file.clone());
         if let Err(e) = openrouter::agent(diff, file).await {
