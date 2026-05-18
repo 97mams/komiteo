@@ -5,7 +5,6 @@ mod event;
 mod git;
 mod utils;
 mod views;
-mod watcher;
 
 use crate::views::tui;
 
@@ -13,7 +12,4 @@ use crate::views::tui;
 async fn main() {
     tui::render().await;
     let _ = event::input().await;
-    // if let Err(e) = watcher::start::watch(".") {
-    //     eprintln!("Error watching files: {:?}", e);
-    // }
 }
