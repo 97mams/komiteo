@@ -16,6 +16,7 @@ pub async fn render() {
     }
 }
 
+//popup
 
 pub async fn render_state() {
     let status = cil::check_status();
