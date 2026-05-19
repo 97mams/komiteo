@@ -20,7 +20,6 @@ pub async fn agent(diff: String, file:String) -> Result<(), Box<dyn std::error::
     pb.set_style(
         ProgressStyle::with_template("{spinner:.green} {msg}")
             .unwrap()
-            // Choose the tick strings (the characters that cycle)
             .tick_strings(&["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏", " -"]),
     );
     pb.set_message("En attente...");
