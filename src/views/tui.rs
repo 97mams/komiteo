@@ -1,6 +1,6 @@
 use colored::Colorize;
 
-use crate::views::hello;
+use crate::views::hello::{self, display_text_with_typing_effect};
 use crate::agent::openrouter;
 use crate::config::config;
 use crate::git::cil;
@@ -16,9 +16,14 @@ pub async fn render() {
     }
 }
 
-//popup
-
 pub async fn render_state() {
+    if !cil::check_folder_git() {
+        hello::display_text_with_typing_effect(
+            " Ce dossier n'est pas encore un dépôt git. \n Initialisation du dépôt git en cours...\n",
+        );
+        display_text_with_typing_effect(cil::git_init().as_mut_str());
+        return ;
+    }
     let status = cil::check_status();
     if status.is_empty() {
         hello::display_text_with_typing_effect(
@@ -27,7 +32,8 @@ pub async fn render_state() {
         return ;
     }
 
-    if status[0] == "fatal: ni ceci ni aucun de ses répertoires parents n'est un dépôt git : .git" {        
+
+    if status[0] == "fatal: ni ceci ni aucun de ses répertoires parents n'est un dépôt git : .git" {
         hello::display_text_with_typing_effect(cil::git_init().as_mut_str()
         );
         return ;
