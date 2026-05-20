@@ -1,4 +1,6 @@
-use std::process::Command;
+use std::{
+  env,
+  process::Command};
 
 use crate::utils::clean_file_name;
 
@@ -67,4 +69,10 @@ pub fn stagefile(file_name: String)  {
     .arg(file_name)
     .status()
     .expect("Failed to execute git add");
+}
+
+pub fn check_folder_git() -> bool {
+  let path_git = env::current_dir().unwrap().join(".git");
+
+  path_git.exists()
 }
