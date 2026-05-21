@@ -1,8 +1,5 @@
 use colored::Colorize;
-use tokio::time::{
-    timeout,
-    Duration,
-};
+use tokio::time::{interval, Duration};
 
 use crate::views::hello::{self, display_text_with_typing_effect};
 use crate::agent::openrouter;
@@ -19,16 +16,12 @@ pub async fn render() {
         println!(" Tapez {} si vous avez besoin d'aide.."," help ".on_bright_yellow());
     }
 
-    let duration = Duration::from_secs(2);
-
-    match timeout(duration, r()).await {
-        Ok(r) => println!("Result: {:?}", r),
-        Err(_) => println!("Operation timed out after {} seconds.", duration.as_secs()),
+    let mut interval = interval(Duration::from_secs(1));
+    loop {
+        interval.tick().await;
+        println!(" Vérification des changements toutes les 1 secondes... ");
     }
-}
 
-async fn r  () -> Result<String, ()> {
-    Ok("Hello, world!".to_string())
 }
 
 pub async fn render_state() {
