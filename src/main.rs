@@ -16,7 +16,6 @@ use crate::views::tui;
 #[tokio::main]
 async fn main() {
     tui::render().await;
-    let _ = event::input().await;
 
     let duration = Duration::from_secs(2);
 
@@ -24,6 +23,7 @@ async fn main() {
         Ok(r) => println!("Result: {:?}", r),
         Err(_) => println!("Operation timed out after {} seconds.", duration.as_secs()),
     }
+    let _ = event::input().await;
     
 }
 
