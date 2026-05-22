@@ -1,5 +1,4 @@
 use colored::Colorize;
-use tokio::time::{interval, Duration};
 
 use crate::views::hello::{self, display_text_with_typing_effect};
 use crate::agent::openrouter;
@@ -15,13 +14,6 @@ pub async fn render() {
         render_state().await;
         println!(" Tapez {} si vous avez besoin d'aide.."," help ".on_bright_yellow());
     }
-
-    let mut interval = interval(Duration::from_secs(1));
-    loop {
-        interval.tick().await;
-        println!(" Vérification des changements toutes les 1 secondes... ");
-    }
-
 }
 
 pub async fn render_state() {
