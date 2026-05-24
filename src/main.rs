@@ -12,5 +12,4 @@ use crate::views::tui;
 async fn main() {
     tui::render().await;
     let _ = event::input().await;
-    println!("I am lazy, I will do it later");
 }
