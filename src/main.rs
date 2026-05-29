@@ -13,6 +13,7 @@ use crate::views::tui;
 
 #[tokio::main]
 async fn main() {
+    println!("delete this line, bat now i am don't want to code"); 
     let _ = args::Komiteo::parse();
     tui::render().await;
     let _ = event::input().await;
