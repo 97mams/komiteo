@@ -76,3 +76,15 @@ pub fn check_folder_git() -> bool {
 
   path_git.exists()
 }
+
+pub fn check_log() -> bool {
+  let log = Command::new("git")
+    .args(&["log", "--online"])
+    .output()
+    .expect("Failed to execute git log");
+  let response =String::from_utf8_lossy(&log.stdout).to_string();
+  if response.is_empty() {
+    return false;
+  }
+  true
+}
