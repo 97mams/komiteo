@@ -28,6 +28,11 @@ pub async fn agent(diff: String, file:String) -> Result<(), Box<dyn std::error::
         .api_key(key)
         .build()?;
 
+    if diff.is_empty() {
+        pb.finish_with_message("Aucun changement détecté.".to_string());
+        return Ok(());
+    }
+
     let request = ChatCompletionRequest::builder()
         .model("openrouter/owl-alpha")
         .messages(vec![Message::new(Role::User, format!("Generate a short Git commit message in English based on this git diff.
