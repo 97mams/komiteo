@@ -79,7 +79,7 @@ pub fn check_folder_git() -> bool {
 
 pub fn check_log() -> bool {
   let log = Command::new("git")
-    .args(&["log", "--online"])
+    .args(&["log", "--oneline"])
     .output()
     .expect("Failed to execute git log");
   let response =String::from_utf8_lossy(&log.stdout).to_string();
