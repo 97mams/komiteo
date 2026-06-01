@@ -63,7 +63,7 @@ Please provide the commit messages now.";
 
     let response = client.chat().create(&request).await?;
     let message = response.choices[0].content().unwrap_or("").to_string();
-    let _ = cil::commit(&message);
+    // let _ = cil::commit(&message);
     pb.finish_with_message(file.trim().green().to_string());
 
     hello::display_text_with_typing_effect(format!(" - {} \n", &message).as_mut_str());
