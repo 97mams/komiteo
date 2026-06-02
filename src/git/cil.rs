@@ -17,6 +17,14 @@ pub fn git_init() -> String {
   }
   response
  }
+
+ pub fn stage_all() {
+    Command::new("git")
+    .arg("add")
+    .arg(".")
+    .status()
+    .expect("Failed to execute git add");
+ }
  
 pub fn check_status() -> Vec<String> {
   let cmd = Command::new("git")
@@ -87,4 +95,10 @@ pub fn check_log() -> bool {
     return false;
   }
   true
+}
+
+pub fn init_commit(message: &str) -> String {
+  git_init();
+  stage_all();
+  commit(message)
 }
