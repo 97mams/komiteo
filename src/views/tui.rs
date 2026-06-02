@@ -5,7 +5,7 @@ use inquire::Select;
 use crate::views::hello::{self, display_text_with_typing_effect};
 use crate::agent::openrouter;
 use crate::config::config;
-use crate::git::cil;
+use crate::git::cil::{self, init_commit};
 
 pub async fn render() {
     hello::logo();
@@ -56,6 +56,10 @@ pub async fn render_state() {
 
     for file in status {
         let diff = cil::diff(file.clone());
+        if diff.is_empty() && !cil::check_log() {
+             init_commit("init commit");
+             return ;
+        }
         if let Err(e) = openrouter::agent(diff, file).await {
             let _ = e;
             display_text_with_typing_effect(
