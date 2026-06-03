@@ -22,21 +22,21 @@ pub async fn agent(diff: String, file: String) -> Result<(), Box<dyn std::error:
 
     let client = OpenRouterClient::builder().api_key(key).build()?;
 
-    if diff.is_empty() {
-        let prompt = "Act as a Git expert. I need you to write a clear, concise, and professional commit message based only on the file name and its role.
-Here is the information:
-- File: [Insert file name here, e.g., src/auth/auth.service.ts]
-- Role / Action: [Briefly explain what this file does or what changed, e.g., Added password hashing logic]
+//     if diff.is_empty() {
+//         prompt = "Act as a Git expert. I need you to write a clear, concise, and professional commit message based only on the file name and its role.
+// Here is the information:
+// - File: [Insert file name here, e.g., src/auth/auth.service.ts]
+// - Role / Action: [Briefly explain what this file does or what changed, e.g., Added password hashing logic]
 
-Writing constraints:
-1. Use the Conventional Commits format (e.g., feat(scope): message, fix(scope): message, chore, docs, refactor...).
-2. The subject line must be short (maximum 50-72 characters).
-3. Use the imperative mood (e.g.,add, fix, improve, implement).
-4. Provide 3 different options: One short/minimalist, one standard/conventional, and one with a short body/description if applicable.
+// Writing constraints:
+// 1. Use the Conventional Commits format (e.g., feat(scope): message, fix(scope): message, chore, docs, refactor...).
+// 2. The subject line must be short (maximum 50-72 characters).
+// 3. Use the imperative mood (e.g.,add, fix, improve, implement).
+// 4. Provide 3 different options: One short/minimalist, one standard/conventional, and one with a short body/description if applicable.
 
-Please provide the commit messages now.";
-        return Ok(());
-    }
+// Please provide the commit messages now.";
+//         return Ok(());
+//     }
 
     let request = ChatCompletionRequest::builder()
         .model("openrouter/owl-alpha")
