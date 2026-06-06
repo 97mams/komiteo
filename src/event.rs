@@ -4,6 +4,8 @@ use crate::command::cmd;
 use colored::Colorize;
 use rustyline::{DefaultEditor, error::ReadlineError};
 
+use crate::git::cil;
+
 pub async fn input() -> rustyline::Result<()> {
 
     let mut rl = DefaultEditor::new()?;
@@ -14,6 +16,9 @@ pub async fn input() -> rustyline::Result<()> {
             rl.add_history_entry(line.as_str())?;
             let value = line.split_whitespace().collect::<Vec<&str>>();
             match value[0] {
+                "log" => {
+                    println!("{}", cil::state());
+                },
                 "komiteo" => {
                     crate::views::tui::render_state().await;
                 },
