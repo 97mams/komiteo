@@ -86,11 +86,7 @@ pub fn check_folder_git() -> bool {
 }
 
 pub fn check_log() -> bool {
-  let log = Command::new("git")
-    .args(&["log", "--oneline"])
-    .output()
-    .expect("Failed to execute git log");
-  let response =String::from_utf8_lossy(&log.stdout).to_string();
+  let response = state();
   if response.is_empty() {
     return false;
   }
@@ -101,4 +97,17 @@ pub fn init_commit(message: &str) -> String {
   git_init();
   stage_all();
   commit(message)
+}
+
+pub fn state () -> String {
+   let log = Command::new("git")
+    .args(&["log", "--oneline"])
+    .output()
+    .expect("Failed to execute git log");
+  let response =String::from_utf8_lossy(&log.stdout).to_string();
+
+  if response.is_empty() {
+    return "".to_string();
+  }
+  response
 }
