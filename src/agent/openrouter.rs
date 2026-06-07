@@ -50,12 +50,12 @@ pub async fn agent(diff: String, file: String) -> Result<(), Box<dyn std::error:
     <type>: <body>
 
     Rules:
-    - Use conventional types (feat, fix, refactor, chore, docs, test)
+    - Use conventional types (feat, fix, refactor, chore, docs, test) with file name {file} in parentheses if possible.
     - Present tense
     - One line only
-
+    - if diff is empty, generate a commit message based on the file name and its role.
     Git diff:
-    {}", diff)
+    {diff}", diff = diff, file = file)
                 )
             ]
         )
