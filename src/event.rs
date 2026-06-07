@@ -17,7 +17,7 @@ pub async fn input() -> rustyline::Result<()> {
             let value = line.split_whitespace().collect::<Vec<&str>>();
             match value[0] {
                 "log" => {
-                    println!("{}", cil::state());
+                    println!("{}", cil::state().green());
                 },
                 "komiteo" => {
                     crate::views::tui::render_state().await;
