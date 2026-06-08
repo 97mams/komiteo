@@ -3,6 +3,7 @@ use std::time::Duration;
 use crate::config::config;
 use crate::views::hello;
 use crate::git::cil;
+use crate::utils;
 
 use crossterm::style::Stylize;
 use indicatif::{ ProgressBar, ProgressStyle };
@@ -10,6 +11,8 @@ use openrouter_rs::{ OpenRouterClient, api::chat::*, types::{ Role } };
 
 pub async fn agent(diff: String, file: String) -> Result<(), Box<dyn std::error::Error>> {
     let config = config::get_api_key_from_config().trim().to_string();
+    let name = utils::extract_name(file.clone());
+    println!("name: {}", name);
     let key: &str = &config;
     let pb = ProgressBar::new_spinner();
     pb.enable_steady_tick(Duration::from_millis(120));
@@ -55,7 +58,7 @@ pub async fn agent(diff: String, file: String) -> Result<(), Box<dyn std::error:
     - One line only
     - if diff is empty, generate a commit message based on the file name and its role.
     Git diff:
-    {diff}", diff = diff, file = file)
+    {diff}", diff = diff, file = name)
                 )
             ]
         )
