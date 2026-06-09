@@ -20,5 +20,7 @@ pub fn clean_file_name(file_name: String) -> String {
 }
 
 pub fn extract_name(file_name:String) -> String {
-    file_name.trim().split("/").last().unwrap_or("").to_string()
+    let name_with_extension = file_name.trim().split("/").last().unwrap_or("").to_string();
+    let name = name_with_extension.split(".").next().unwrap_or("").to_string();
+    name
 }
