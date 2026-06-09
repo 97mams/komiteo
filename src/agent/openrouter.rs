@@ -12,7 +12,7 @@ use openrouter_rs::{ OpenRouterClient, api::chat::*, types::{ Role } };
 pub async fn agent(diff: String, file: String) -> Result<(), Box<dyn std::error::Error>> {
     let config = config::get_api_key_from_config().trim().to_string();
     let name = utils::extract_name(file.clone());
-    println!("name: {}", name);
+    println!("name: {}", name); 
     let key: &str = &config;
     let pb = ProgressBar::new_spinner();
     pb.enable_steady_tick(Duration::from_millis(120));
@@ -24,22 +24,6 @@ pub async fn agent(diff: String, file: String) -> Result<(), Box<dyn std::error:
     pb.set_message("En attente...");
 
     let client = OpenRouterClient::builder().api_key(key).build()?;
-
-//     if diff.is_empty() {
-//         prompt = "Act as a Git expert. I need you to write a clear, concise, and professional commit message based only on the file name and its role.
-// Here is the information:
-// - File: [Insert file name here, e.g., src/auth/auth.service.ts]
-// - Role / Action: [Briefly explain what this file does or what changed, e.g., Added password hashing logic]
-
-// Writing constraints:
-// 1. Use the Conventional Commits format (e.g., feat(scope): message, fix(scope): message, chore, docs, refactor...).
-// 2. The subject line must be short (maximum 50-72 characters).
-// 3. Use the imperative mood (e.g.,add, fix, improve, implement).
-// 4. Provide 3 different options: One short/minimalist, one standard/conventional, and one with a short body/description if applicable.
-
-// Please provide the commit messages now.";
-//         return Ok(());
-//     }
 
     let request = ChatCompletionRequest::builder()
         .model("openrouter/owl-alpha")
@@ -56,9 +40,21 @@ pub async fn agent(diff: String, file: String) -> Result<(), Box<dyn std::error:
     - Use conventional types (feat, fix, refactor, chore, docs, test) with file name {file} in parentheses if possible.
     - Present tense
     - One line only
-    - if diff is empty, generate a commit message based on the file name and its role.
     Git diff:
-    {diff}", diff = diff, file = name)
+    {diff}
+    
+    Act as a Git expert. I need you to write a clear, concise, and professional commit message based only on the file name and its role.
+    Here is the information:
+    - File: [Insert file name here, e.g., src/auth/auth.service.ts]
+    - Role / Action: [Briefly explain what this file does or what changed, e.g., Added password hashing logic]
+
+    Writing constraints:
+    1. Use the Conventional Commits format (e.g., feat(scope): message, fix(scope): message, chore, docs, refactor...).
+    2. The subject line must be short (maximum 50-72 characters).
+    3. Use the imperative mood (e.g.,add, fix, improve, implement).
+    4. Provide 3 different options: One short/minimalist, one standard/conventional, and one with a short body/description if applicable.
+    Please provide the commit messages now.
+", diff = diff, file = name)
                 )
             ]
         )
