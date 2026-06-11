@@ -31,30 +31,8 @@ pub async fn agent(diff: String, file: String) -> Result<(), Box<dyn std::error:
             vec![
                 Message::new(
                     Role::User,
-                    format!("Generate a short Git commit message in English based on this git diff.
-
-    Format:
-    <type>: <body>
-
-    Rules:
-    - Use conventional types (feat, fix, refactor, chore, docs, test) with file name {file} in parentheses if possible.
-    - Present tense
-    - One line only
-    Git diff:
-    {diff}
-    
-    Act as a Git expert. I need you to write a clear, concise, and professional commit message based only on the file name and its role.
-    Here is the information:
-    - Role / Action: [Briefly explain what this file does or what changed, e.g., Added password hashing logic]
-
-    Writing constraints:
-    1. Use the Conventional Commits format (e.g., feat(scope): message, fix(scope): message, chore, docs, refactor...).
-    2. The subject line must be short (maximum 50-72 characters).
-    3. Use the imperative mood (e.g.,add, fix, improve, implement).
-    4. Provide 3 different options: One short/minimalist, one standard/conventional, and one with a short body/description if applicable.
-    Please provide the commit messages now.
-
-    You are an expert Git commit message generator.
+                    format!("
+You are an expert Git commit message generator.
 
 Analyze the provided git diff and generate a single concise commit message.
 
@@ -67,14 +45,14 @@ Rules:
 * Use Conventional Commits format.
 
 Format:
-(): 
+conventional(file): message
+the file name is here: {file}
 
 Examples:
-feat(main.rs): add command parser
-fix/config.rs: handle missing environment variables
-refactor(watcher.rs): simplify file monitoring logic
-docs(readme.md): update installation instructions
-test/parser.rs): add command parsing tests
+feat(main): add command parser
+refactor(watcher): simplify file monitoring logic
+docs(readme): update installation instructions
+test(parser): add command parsing tests
 
 Type selection:
 
@@ -89,12 +67,6 @@ Type selection:
 * ci: CI/CD changes
 * chore: maintenance tasks
 
-Filename selection:
-
-* Use the primary modified file name.
-* Remove the path and keep only the file name.
-* If multiple files are modified, choose the file that best represents the main change.
-* If the change affects the whole project, use "app".
 
 Description rules:
 
@@ -108,7 +80,7 @@ Special cases:
   chore(app): continue development progress
 
 Git Diff:
-{{DIFF}}
+{diff}
 
 Commit Message:
 
