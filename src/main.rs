@@ -12,8 +12,7 @@ use clap::Parser;
 use crate::{ views::tui};
 
 #[tokio::main]
-async fn main() { 
-    println!("demain je fix tous les issues de ce projet");
+async fn main() {
     let _ = args::Komiteo::parse();
     tui::render().await;
     let _ = event::input().await;
