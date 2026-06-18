@@ -12,7 +12,6 @@ use openrouter_rs::{ OpenRouterClient, api::chat::*, types::{ Role } };
 pub async fn agent(diff: String, file: String) -> Result<(), Box<dyn std::error::Error>> {
     let config = config::get_api_key_from_config().trim().to_string();
     let name = utils::extract_name(file.clone());
-    println!("name: {}", name); 
     let key: &str = &config;
     let pb = ProgressBar::new_spinner();
     pb.enable_steady_tick(Duration::from_millis(120));
@@ -31,58 +30,85 @@ pub async fn agent(diff: String, file: String) -> Result<(), Box<dyn std::error:
             vec![
                 Message::new(
                     Role::User,
-                    format!("
-You are an expert Git commit message generator.
+                    format!("You are an expert Git commit message generator.
 
-Analyze the provided git diff and generate a single concise commit message.
+You are given:
 
-Rules:
+* `diff`: the Git diff of the changes.
+* `file`: the modified file name.
 
-* Output ONLY the commit message.
-* Do not use markdown.
-* Do not add explanations.
-* Keep the message short and meaningful.
-* Use Conventional Commits format.
+Your task is to generate a single Conventional Commit message.
 
-Format:
-conventional(file): message
-the file name is here: {file}
+## Output Format
+
+<type>(<file>): <description>
 
 Examples:
-feat(main): add command parser
-refactor(watcher): simplify file monitoring logic
-docs(readme): update installation instructions
-test(parser): add command parsing tests
 
-Type selection:
+* feat(login-form): add password validation
+* fix(api): handle null response
+* refactor(user-service): simplify authentication flow
 
-* feat: new functionality
-* fix: bug fix
-* refactor: code restructuring without behavior changes
-* perf: performance improvement
-* docs: documentation changes
-* test: tests added or modified
-* style: formatting or code style changes
-* build: build system changes
-* ci: CI/CD changes
-* chore: maintenance tasks
+## Rules
 
+1. Analyze the provided diff and determine the most appropriate commit type:
 
-Description rules:
+   * feat
+   * fix
+   * refactor
+   * perf
+   * docs
+   * style
+   * test
+   * build
+   * ci
+   * chore
 
-* Describe the intent of the change, not individual code lines.
-* Use present tense verbs such as add, fix, improve, remove, simplify, implement, update, optimize, rename, migrate.
-* Ignore whitespace-only or formatting-only changes unless they are the main purpose.
+2. Generate a concise description that summarizes the most significant change.
 
-Special cases:
+3. Use imperative verbs:
 
-* If the diff is empty or contains no meaningful changes, generate:
-  chore(app): continue development progress
+   * add
+   * update
+   * fix
+   * remove
+   * improve
+   * refactor
+   * optimize
+   * simplify
+   * rename
 
-Git Diff:
+4. Always use the provided `file` value as the scope.
+
+5. Keep the description short and meaningful.
+
+## Empty Diff Handling
+
+If the diff is empty, unavailable, or provides insufficient information:
+
+1. Use the file name as contextual information.
+2. Infer the most reasonable change.
+3. Generate a valid Conventional Commit message.
+4. Never mention that the diff is empty.
+5. Never ask for more information.
+
+## Output Requirements
+
+* Output exactly one line.
+* No markdown.
+* No code fences.
+* No quotes.
+* No explanations.
+* No extra text.
+
+Input:
+
+File:
+{file}
+
+Diff:
 {diff}
 
-Commit Message:
 
 ", diff = diff, file = name)
                 )
