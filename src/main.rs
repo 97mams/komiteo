@@ -13,7 +13,6 @@ use crate::{ views::tui};
 
 #[tokio::main]
 async fn main() {
-    println!("mon ordiateur est horservice");
     let _ = args::Komiteo::parse();
     tui::render().await;
     let _ = event::input().await;
