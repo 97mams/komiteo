@@ -20,7 +20,7 @@ pub async fn input() -> rustyline::Result<()> {
                     println!("{}", cil::state().green());
                 },
                 "komiteo" => {
-                    crate::views::tui::render_state().await;
+                    crate::views::tui::mety();
                 },
                 "reconfig" => {
                     reconfig();
