@@ -1,4 +1,4 @@
-use crate::config::config;
+use crate::{config::config, views::tui::mety};
 use crate::utils::Command;
 use crate::command::cmd;
 use colored::Colorize;
@@ -20,7 +20,7 @@ pub async fn input() -> rustyline::Result<()> {
                     println!("{}", cil::state().green());
                 },
                 "komiteo" => {
-                    println!("mety e")
+                    mety();
                 },
                 "reconfig" => {
                     reconfig();
