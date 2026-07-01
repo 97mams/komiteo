@@ -20,7 +20,6 @@ pub async fn input() -> rustyline::Result<()> {
                     println!("{}", cil::state().green());
                 },
                 "komiteo" => {
-                    mety();
                 },
                 "reconfig" => {
                     reconfig();
