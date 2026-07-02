@@ -19,8 +19,6 @@ pub async fn input() -> rustyline::Result<()> {
                 "log" => {
                     println!("{}", cil::state().green());
                 },
-                "komiteo" => {
-                },
                 "reconfig" => {
                     reconfig();
                 },
